@@ -18,6 +18,13 @@ class Owner extends Model
   ];
 
   /**
+   * The relationships that should always be loaded.
+   *
+   * @var array
+   */
+  protected $with = ['user'];
+
+  /**
    * Get the user that owns the owner.
    */
   public function user(): BelongsTo

@@ -17,6 +17,13 @@ class Admin extends Model
   ];
 
   /**
+   * The relationships that should always be loaded.
+   *
+   * @var array
+   */
+  protected $with = ['user'];
+
+  /**
    * Get the user that owns the admin.
    */
   public function user(): BelongsTo

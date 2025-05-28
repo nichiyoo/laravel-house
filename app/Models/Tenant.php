@@ -36,6 +36,13 @@ class Tenant extends Model
   }
 
   /**
+   * The relationships that should always be loaded.
+   *
+   * @var array
+   */
+  protected $with = ['user'];
+
+  /**
    * Get the user that owns the tenant.
    */
   public function user(): BelongsTo
