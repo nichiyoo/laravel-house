@@ -7,7 +7,33 @@
     --font-sans: 'Poppins', sans-serif;
   }
 
+  * {
+    @apply border-base-200 overscroll-y-none;
+  }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
   body {
-    @apply antialiased font-sans text-base-900;
+    @apply antialiased font-sans text-base-900 bg-base-100;
+  }
+
+  span {
+    @apply block;
+  }
+}
+
+@layer components {
+  .mobile {
+    @apply container min-h-screen max-w-md bg-base-50 border-x;
+  }
+
+  [x-cloak] {
+    display: none !important;
+  }
+
+  .icon {
+    @apply [&_svg]:size-6 grid place-content-center;
   }
 }

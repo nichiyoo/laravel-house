@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Authentication;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
+use App\Enums\RoleType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Authentication\LoginRequest;
+use App\Http\Requests\Authentication\RegisterRequest;
 
 class AuthController extends Controller
 {
-  protected $intended = '/';
+  protected $intended = '/dashboard';
 
   /**
    * Show the login form.
@@ -27,7 +27,11 @@ class AuthController extends Controller
    */
   public function register()
   {
-    return view('auth.register');
+    $roles = RoleType::save();
+
+    return view('auth.register', [
+      'roles' => $roles,
+    ]);
   }
 
   /**

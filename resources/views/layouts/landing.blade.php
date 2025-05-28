@@ -15,12 +15,7 @@
 </head>
 
 <body>
-  <div class="mobile p-side grid items-center">
-    <div class="grid gap-8">
-      <a href="{{ route('home') }}"><x-logo class="mx-auto max-w-40" /></a>
-      {{ $slot }}
-    </div>
-  </div>
+  {{ $slot }}
 </body>
 
 </html>

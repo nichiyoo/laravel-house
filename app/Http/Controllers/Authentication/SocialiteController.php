@@ -14,7 +14,7 @@ class SocialiteController extends Controller
   /**
    * redirect to oauth provider
    */
-  public function redirect($provider)
+  public function redirect(string $provider)
   {
     return Socialite::driver($provider)->redirect();
   }

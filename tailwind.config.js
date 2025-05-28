@@ -20,7 +20,6 @@ export default {
     extend: {
       container: {
         center: true,
-        padding: '2rem',
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
@@ -28,6 +27,11 @@ export default {
       colors: {
         base: colors.gray,
         primary: colors.amber,
+      },
+      spacing: {
+        side: '2rem',
+        navbar: '3rem',
+        content: 'calc(100dvh - 3rem)',
       }
     },
   },

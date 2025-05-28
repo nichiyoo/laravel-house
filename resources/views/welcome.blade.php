@@ -1,11 +1,18 @@
-<x-app-layout>
-  <div class="flex flex-col items-center justify-center h-screen">
-    <h1 class="text-5xl font-bold">Welcome to Laravel House</h1>
-    @auth
-      <a href="{{ route('dashboard') }}" class="btn btn-primary">Dashboard</a>
-    @else
-      <a href="{{ route('auth.login') }}" class="btn btn-primary">Login</a>
-      <a href="{{ route('auth.register') }}" class="btn btn-secondary">Register</a>
-    @endauth
+<x-landing-layout>
+  <div class="mobile p-side grid grid-rows-3 h-screen">
+    <header class="font-bold">
+      <span class="text-xl">Selamat datang</span>
+      <span class="text-5xl text-primary-500">{{ config('app.name') }}.</span>
+    </header>
+
+    <div class="grid self-center gap-4 text-center">
+      <x-logo class="max-w-xs mx-auto" />
+      <p class="text-center">Temukan Kos Pilihanmu</p>
+    </div>
+
+    <div class="grid gap-2 self-end">
+      <a href="{{ route('auth.login') }}"><x-button variant="secondary">Are you a user?</x-button></a>
+      <a href="{{ route('auth.login') }}"><x-button variant="primary">Are you an owner?</x-button></a>
+    </div>
   </div>
-</x-app-layout>
+</x-landing-layout>

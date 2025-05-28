@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum RoleType: string
 {
-  case ADMIN = 'admin';
-  case OWNER = 'owner';
   case TENANT = 'tenant';
+  case OWNER = 'owner';
+  case ADMIN = 'admin';
 
   /**
    * Get the label for the role type.
@@ -16,9 +16,9 @@ enum RoleType: string
   public function label(): string
   {
     return match ($this) {
-      self::ADMIN => 'Administrator',
-      self::OWNER => 'Property Owner',
       self::TENANT => 'Tenant',
+      self::OWNER => 'Owner',
+      self::ADMIN => 'Administrator',
     };
   }
 
@@ -30,9 +30,19 @@ enum RoleType: string
   public function description(): string
   {
     return match ($this) {
-      self::ADMIN => 'Administrator of the system',
-      self::OWNER => 'Owner of the property',
       self::TENANT => 'Tenant or user of the property',
+      self::OWNER => 'Owner of the property',
+      self::ADMIN => 'Administrator of the system',
     };
+  }
+
+  /**
+   * Get the save choices for the role type.
+   *
+   * @return array
+   */
+  public static function save(): array
+  {
+    return array_filter(self::cases(), fn(RoleType $role) => $role !== self::ADMIN);
   }
 }
