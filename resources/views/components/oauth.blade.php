@@ -16,7 +16,7 @@
 
 <div class="flex items-center gap-2 justify-center">
   @foreach ($providers as $provider)
-    <a href="{{ $provider->route }}" class="icon border rounded-full size-14">
+    <a href="{{ $provider->route }}" class="icon border rounded-full size-14 bg-zinc-50">
       <x-svg src="{{ $provider->icon }}" />
     </a>
   @endforeach

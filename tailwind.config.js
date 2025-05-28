@@ -30,9 +30,12 @@ export default {
       },
       spacing: {
         side: '2rem',
-        navbar: '3rem',
-        content: 'calc(100dvh - 3rem)',
-      }
+        navbar: '5rem',
+        content: 'calc(100dvh - 5rem)',
+      },
+      aspectRatio: {
+        thumbnail: '3 / 2',
+      },
     },
   },
   plugins: [typography, forms, animate],

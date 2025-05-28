@@ -15,7 +15,9 @@
 </head>
 
 <body>
-  {{ $slot }}
+  <main class="mobile">
+    {{ $slot }}
+  </main>
 </body>
 
 </html>

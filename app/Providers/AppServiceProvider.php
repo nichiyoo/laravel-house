@@ -25,9 +25,8 @@ class AppServiceProvider extends ServiceProvider
   {
     Model::preventLazyLoading();
 
-    Blade::if('role', function ($role) {
-      $role = RoleType::tryFrom($role);
-      return Auth::user()->role === $role;
-    });
+    Blade::if('owner', fn() => Auth::user()->role === RoleType::OWNER);
+    Blade::if('admin', fn() => Auth::user()->role === RoleType::ADMIN);
+    Blade::if('tenant', fn() => Auth::user()->role === RoleType::TENANT);
   }
 }

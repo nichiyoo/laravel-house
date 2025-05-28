@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum AmenitiesType: string
+enum AmenityType: string
 {
   case TV = 'tv';
   case WIFI = 'wifi';

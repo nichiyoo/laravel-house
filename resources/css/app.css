@@ -8,7 +8,7 @@
   }
 
   * {
-    @apply border-base-200 overscroll-y-none;
+    @apply border-border overscroll-y-none;
   }
 
   *::-webkit-scrollbar {
@@ -19,21 +19,31 @@
     @apply antialiased font-sans text-base-900 bg-base-100;
   }
 
-  span {
-    @apply block;
-  }
-}
-
-@layer components {
-  .mobile {
-    @apply container min-h-screen max-w-md bg-base-50 border-x;
+  input,
+  textarea,
+  select {
+    @apply border-border;
   }
 
   [x-cloak] {
     display: none !important;
   }
+}
+
+@layer components {
+  .mobile {
+    @apply container min-h-screen max-w-md bg-base-100 border-x;
+  }
 
   .icon {
     @apply [&_svg]:size-6 grid place-content-center;
+  }
+
+  .card {
+    @apply border bg-base-50 rounded-xl;
+  }
+
+  .border-border {
+    @apply border-base-200;
   }
 }

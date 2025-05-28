@@ -88,4 +88,13 @@ class User extends Authenticatable
         'longitude' => 0,
       ]);
   }
+
+  /**
+   * Get the avatar attribute.
+   */
+  public function getAvatarAttribute(): string
+  {
+    $default = 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=e1e1e1&size=64&font-size=0.33';
+    return $this->avatar ?? $default;
+  }
 }

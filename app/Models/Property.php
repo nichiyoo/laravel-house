@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
-use App\Enums\AmenitiesType;
+use App\Enums\AmenityType;
 use App\Enums\IntervalType;
+use App\Traits\HasImageUpload;
+use App\Traits\HasMultipleImageUpload;
 use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,6 +15,9 @@ use Illuminate\Support\Facades\Auth;
 
 class Property extends Model
 {
+  /** @use HasFactory<\Database\Factories\PropertyFactory> */
+  use HasFactory, HasImageUpload, HasMultipleImageUpload;
+
   /**
    * The attributes that are mass assignable.
    *
@@ -46,7 +52,7 @@ class Property extends Model
       'latitude' => 'decimal:6',
       'longitude' => 'decimal:6',
       'interval' => IntervalType::class,
-      'amenities' => AsEnumCollection::of(AmenitiesType::class),
+      'amenities' => AsEnumCollection::of(AmenityType::class),
     ];
   }
 
@@ -59,9 +65,9 @@ class Property extends Model
   }
 
   /**
-   * Get the renters of the property.
+   * Get the tenants of the property.
    */
-  public function renters(): BelongsToMany
+  public function tenants(): BelongsToMany
   {
     return $this->belongsToMany(Tenant::class, 'tenant_properties')
       ->withPivot(
@@ -84,11 +90,11 @@ class Property extends Model
   }
 
   /**
-   * Get the rating of the property by average of the renters ratings.
+   * Get the rating of the property by average of the tenants ratings.
    */
-  public function getRatingAttribute(): float
+  public function getRatingAttribute(): float | null
   {
-    return $this->renters()->avg('pivot.rating');
+    return $this->tenants()->avg('rating');
   }
 
   /**

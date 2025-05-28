@@ -1,5 +1,5 @@
 <x-landing-layout>
-  <div class="mobile p-side grid grid-rows-3 h-screen">
+  <div class="p-side grid grid-rows-3 h-screen">
     <header class="font-bold">
       <span class="text-xl">Selamat datang</span>
       <span class="text-5xl text-primary-500">{{ config('app.name') }}.</span>

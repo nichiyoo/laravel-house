@@ -15,8 +15,8 @@ enum ProviderType: string
   public function icon(): string
   {
     return match ($this) {
-      self::GOOGLE => 'icons/google.svg',
-      self::GITHUB => 'icons/github.svg',
+      self::GOOGLE => asset('icons/google.svg'),
+      self::GITHUB => asset('icons/github.svg'),
     };
   }
 }

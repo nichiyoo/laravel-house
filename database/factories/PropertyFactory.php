@@ -1,0 +1,43 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Enums\AmenityType;
+use App\Enums\IntervalType;
+use App\Models\Owner;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Property>
+ */
+class PropertyFactory extends Factory
+{
+  /**
+   * Define the model's default state.
+   *
+   * @return array<string, mixed>
+   */
+  public function definition(): array
+  {
+    $intervals = array_map(fn(IntervalType $interval) => $interval->value, IntervalType::cases());
+    $amenities = array_map(fn(AmenityType $amenity) => $amenity->value, AmenityType::cases());
+
+    return [
+      'name' => 'Kos ' . fake()->company(),
+      'city' => fake()->city(),
+      'region' => fake()->state(),
+      'zipcode' => fake()->postcode(),
+      'address' => fake()->streetAddress(),
+      'price' => fake()->numberBetween(5, 4) * 100000,
+      'capacity' => fake()->numberBetween(1, 10),
+      'interval' => fake()->randomElement($intervals),
+      'description' => fake()->paragraphs(3, true),
+      'latitude' => fake()->latitude(),
+      'longitude' => fake()->longitude(),
+      'backdrop' => null,
+      'images' => null,
+      'amenities' => fake()->randomElements($amenities, 6),
+      'owner_id' => Owner::factory(),
+    ];
+  }
+}
