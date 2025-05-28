@@ -6,4 +6,8 @@
   :root {
     --font-sans: 'Poppins', sans-serif;
   }
+
+  body {
+    @apply antialiased font-sans text-base-900;
+  }
 }

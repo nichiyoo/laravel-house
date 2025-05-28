@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Enums\RoleType;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,11 @@ class AppServiceProvider extends ServiceProvider
    */
   public function boot(): void
   {
-    //
+    Model::preventLazyLoading();
+
+    Blade::if('role', function ($role) {
+      $role = RoleType::tryFrom($role);
+      return Auth::user()->role === $role;
+    });
   }
 }

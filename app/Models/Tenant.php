@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Tenant extends Model
 {
@@ -23,13 +24,16 @@ class Tenant extends Model
   /**   
    * The attributes that should be cast.
    *
-   * @var array<string, string>
+   * @return array<string, string>
    */
-  protected $casts = [
-    'completed' => 'boolean',
-    'latitude' => 'decimal:6',
-    'longitude' => 'decimal:6',
-  ];
+  protected function casts(): array
+  {
+    return [
+      'completed' => 'boolean',
+      'latitude' => 'decimal:6',
+      'longitude' => 'decimal:6',
+    ];
+  }
 
   /**
    * Get the user that owns the tenant.
@@ -37,5 +41,30 @@ class Tenant extends Model
   public function user(): BelongsTo
   {
     return $this->belongsTo(User::class);
+  }
+
+  /**
+   * Get the properties that the tenant has rented.
+   */
+  public function rented(): BelongsToMany
+  {
+    return $this->belongsToMany(Property::class, 'tenant_properties')
+      ->withPivot(
+        'start',
+        'duration',
+        'rating',
+        'review',
+        'method',
+        'status'
+      )
+      ->withTimestamps();
+  }
+
+  /**
+   * Get the bookmarks of the tenant.
+   */
+  public function bookmarks(): BelongsToMany
+  {
+    return $this->belongsToMany(Property::class, 'tenant_bookmarks');
   }
 }

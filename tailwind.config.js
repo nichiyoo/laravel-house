@@ -11,6 +11,11 @@ export default {
     "./resources/**/*.js",
     "./resources/**/*.vue",
   ],
+  safelist: [
+    {
+      pattern: /(bg|text|outline)-(base|amber|green|red)-(500)/,
+    }
+  ],
   theme: {
     extend: {
       container: {
