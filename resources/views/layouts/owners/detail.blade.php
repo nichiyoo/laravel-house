@@ -63,13 +63,18 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-2 border-y">
+          <div class="grid grid-cols-3 border-y">
             @php
               $tabs = collect([
                   [
                       'label' => 'Detail',
                       'route' => route('owners.properties.show', $property),
                       'active' => request()->routeIs('owners.properties.show', $property),
+                  ],
+                  [
+                      'label' => 'Applications',
+                      'route' => route('owners.properties.applications', $property),
+                      'active' => request()->routeIs('owners.properties.applications', $property),
                   ],
                   [
                       'label' => 'Review',

@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Owners;
 
 use App\Enums\AmenityType;
 use App\Enums\IntervalType;
+use App\Enums\StatusType;
 use App\Models\Property;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -20,7 +22,7 @@ class PropertyController extends Controller
   /**
    * Register the middleware
    */
-  public function __construct()
+  public function __construct(private NotificationService $notification)
   {
     $this->authorizeResource(Property::class, 'property');
   }
@@ -172,5 +174,87 @@ class PropertyController extends Controller
     return view('owners.properties.location', [
       'property' => $property->load('owner'),
     ]);
+  }
+
+  /**
+   * Display the applications of the specified resource.
+   */
+  public function applications(Property $property): View
+  {
+    return view('owners.properties.applications', [
+      'property' => $property->load('owner'),
+      'tenants' => $property->tenants()
+        ->with('user')
+        ->orderByPivot('created_at', 'desc')
+        ->get(),
+    ]);
+  }
+
+  /**
+   * Approve the specified resource.
+   */
+  public function approve(Request $request, Property $property): RedirectResponse
+  {
+    $id = $request->input('id');
+    $rental = $property->tenants()->with('user')
+      ->wherePivot('id', $id)
+      ->first();
+
+    if (!$rental) {
+      return redirect()->route('owners.properties.applications', $property)
+        ->with('error', 'tenant not found');
+    }
+
+    if ($rental->pivot->status !== StatusType::PENDING) {
+      return redirect()->route('owners.properties.applications', $property)
+        ->with('error', 'tenant not pending');
+    }
+
+    $rental->pivot->update([
+      'status' => StatusType::APPROVED,
+    ]);
+
+    $this->notification->send(
+      $rental->user,
+      'Your application has been approved',
+      'Your application has been approved for ' . $property->name,
+    );
+
+    return redirect()->route('owners.properties.applications', $property)
+      ->with('success', 'tenant approved successfully');
+  }
+
+  /**
+   * Reject the specified resource.
+   */
+  public function reject(Request $request, Property $property): RedirectResponse
+  {
+    $id = $request->input('id');
+    $rental = $property->tenants()->with('user')
+      ->wherePivot('id', $id)
+      ->first();
+
+    if (!$rental) {
+      return redirect()->route('owners.properties.applications', $property)
+        ->with('error', 'tenant not found');
+    }
+
+    if ($rental->pivot->status !== StatusType::PENDING) {
+      return redirect()->route('owners.properties.applications', $property)
+        ->with('error', 'tenant not pending');
+    }
+
+    $rental->pivot->update([
+      'status' => StatusType::REJECTED,
+    ]);
+
+    $this->notification->send(
+      $rental->user,
+      'Your application has been rejected',
+      'Your application has been rejected for ' . $property->name,
+    );
+
+    return redirect()->route('owners.properties.applications', $property)
+      ->with('success', 'tenant rejected successfully');
   }
 }

@@ -81,7 +81,8 @@ class Property extends Model
         'method',
         'status'
       )
-      ->withTimestamps();
+      ->withTimestamps()
+      ->using(TenantProperty::class);
   }
 
   /**

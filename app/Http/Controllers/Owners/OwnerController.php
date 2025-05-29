@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Owners;
 
+use App\Enums\StatusType;
 use App\Http\Controllers\Controller;
+use App\Models\Property;
+use App\Models\TenantProperty;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class OwnerController extends Controller
 {
@@ -40,5 +44,23 @@ class OwnerController extends Controller
   public function profile()
   {
     return view('owners.profile');
+  }
+
+  /**
+   * Display the owner rental applications.
+   */
+  public function applications(): View
+  {
+    $owner = Auth::user()->owner;
+    $properties = $owner->properties()
+      ->whereHas('tenants', function ($query) {
+        $query->where('status', StatusType::PENDING);
+      })
+      ->with('tenants')
+      ->get();
+
+    return view('owners.applications', [
+      'properties' => $properties,
+    ]);
   }
 }

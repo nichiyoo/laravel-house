@@ -1,7 +1,7 @@
 <x-detail-layout :property="$property">
   <div class="grid gap-6 p-side">
     @forelse ($reviews as $review)
-      <div class="card p-side grid gap-4">
+      <div class="card p-6">
         <div class="flex items-center justify-between">
           <x-profile :user="$review->user" />
           <x-rating :rating="$review->pivot->rating" />

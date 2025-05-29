@@ -38,6 +38,7 @@ Route::middleware('auth', 'role:owner')
       ->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::get('/profile', 'profile')->name('profile');
+        Route::get('/applications', 'applications')->name('applications');
       });
 
     Route::controller(OwnerPropertyController::class)
@@ -46,6 +47,9 @@ Route::middleware('auth', 'role:owner')
       ->group(function () {
         Route::get('{property}/reviews', 'reviews')->name('reviews');
         Route::get('{property}/location', 'location')->name('location');
+        Route::get('{property}/applications', 'applications')->name('applications');
+        Route::post('{property}/approve', 'approve')->name('approve');
+        Route::post('{property}/reject', 'reject')->name('reject');
       });
 
     Route::resource('properties', OwnerPropertyController::class);

@@ -25,7 +25,7 @@
                   'icon' => 'user-round',
               ],
               [
-                  'href' => '#',
+                  'href' => route('owners.applications'),
                   'label' => 'Applications',
                   'icon' => 'shopping-bag',
               ],

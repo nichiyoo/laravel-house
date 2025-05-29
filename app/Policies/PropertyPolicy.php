@@ -64,4 +64,44 @@ class PropertyPolicy
   {
     return false;
   }
+
+  /**
+   * Determine whether the user can view the reviews of the model.
+   */
+  public function reviews(User $user, Property $property): bool
+  {
+    return $property->owner->user->is($user);
+  }
+
+  /**
+   * Determine whether the user can view the location of the model.
+   */
+  public function location(User $user, Property $property): bool
+  {
+    return $property->owner->user->is($user);
+  }
+
+  /** 
+   * Determine whether the user can view the applications of the model.
+   */
+  public function applications(User $user, Property $property): bool
+  {
+    return $property->owner->user->is($user);
+  }
+
+  /**
+   * Determine whether the user can approve the model.
+   */
+  public function approve(User $user, Property $property): bool
+  {
+    return $property->owner->user->is($user);
+  }
+
+  /**
+   * Determine whether the user can reject the model.
+   */
+  public function reject(User $user, Property $property): bool
+  {
+    return $property->owner->user->is($user);
+  }
 }

@@ -56,4 +56,12 @@ class TenantProperty extends Pivot
   {
     return $this->belongsTo(Property::class);
   }
+
+  /**
+   * Getter for total price by multiplying the property price with the duration.
+   */
+  public function getTotalAttribute(): int
+  {
+    return $this->property->price * $this->duration * $this->property->interval->ratio();
+  }
 }
