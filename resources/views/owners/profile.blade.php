@@ -30,7 +30,7 @@
                   'icon' => 'shopping-bag',
               ],
               [
-                  'href' => '#',
+                  'href' => route('help'),
                   'label' => 'Help',
                   'icon' => 'life-buoy',
               ],

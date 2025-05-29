@@ -31,13 +31,13 @@ class AppController extends Controller
   }
 
   /**
-   * Display the activity page.
+   * Display the help page.
    *
    * @return \Illuminate\View\View
    */
-  public function activity()
+  public function help()
   {
-    return view('activity');
+    return view('help');
   }
 
   /**

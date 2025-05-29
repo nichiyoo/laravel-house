@@ -17,6 +17,7 @@ Route::middleware('auth')
   ->group(function () {
     Route::get('/dashboard', 'dashboard')->name('dashboard');
     Route::get('/profile', 'profile')->name('profile');
+    Route::get('/help', 'help')->name('help');
 
     Route::controller(NotificationController::class)
       ->prefix('notifications')
