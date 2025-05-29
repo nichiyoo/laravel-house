@@ -113,7 +113,9 @@ class TenantController extends Controller
   public function applications(): View
   {
     $tenant = Auth::user()->tenant;
-    $properties = $tenant->rented()->with('owner')->get();
+    $properties = $tenant->rented()->with('owner')
+      ->orderByPivot('created_at', 'desc')
+      ->get();
 
     return view('tenants.applications', [
       'properties' => $properties,

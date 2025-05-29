@@ -20,6 +20,7 @@
                 'total' => 'Rp ' . number_format($property->pivot->total),
                 'method' => $property->pivot->method->label(),
                 'duration' => $property->pivot->duration * $property->interval->ratio() . ' months',
+                'created' => $property->pivot->created_at->diffForHumans(),
             ];
           @endphp
 
@@ -37,7 +38,7 @@
             <div class="border-t grid grid-cols-2 text-sm font-medium">
               <form method="POST" action="{{ route('tenants.properties.cancel', $property) }}">
                 @csrf
-                <input type="hidden" name="id" value="{{ $transaction->id }}">
+                <input type="hidden" name="id" value="{{ $property->pivot->id }}">
                 <button class="px-6 py-4 flex items-center justify-center gap-2 bg-red-500 text-white w-full">
                   <span>Cancel</span>
                 </button>

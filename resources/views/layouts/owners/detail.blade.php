@@ -93,7 +93,9 @@
             @endforeach
           </div>
 
-          {{ $slot }}
+          <div class="min-h-96">
+            {{ $slot }}
+          </div>
         </section>
     </main>
 

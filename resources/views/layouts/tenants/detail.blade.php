@@ -88,7 +88,9 @@
             @endforeach
           </div>
 
-          {{ $slot }}
+          <div class="min-h-96">
+            {{ $slot }}
+          </div>
         </section>
       </div>
     </main>
@@ -102,17 +104,28 @@
                   'route' => route('tenants.properties.location', $property),
                   'icon' => 'map',
                   'variant' => 'secondary',
+                  'show' => true,
               ],
               [
                   'label' => 'Rent',
                   'route' => route('tenants.properties.rent', $property),
                   'icon' => 'shopping-bag',
                   'variant' => 'primary',
+                  'show' => !request()->routeIs('tenants.properties.reviews', $property),
+              ],
+              [
+                  'label' => 'Review',
+                  'route' => route('tenants.properties.review.create', $property),
+                  'icon' => 'plus',
+                  'variant' => 'primary',
+                  'show' => request()->routeIs('tenants.properties.reviews', $property),
               ],
           ])->map(fn($action) => (object) $action);
         @endphp
 
         @foreach ($actions as $action)
+          @continue(!$action->show)
+
           <a href="{{ $action->route }}">
             <x-button variant="{{ $action->variant }}">
               <i data-lucide="{{ $action->icon }}" class="size-5"></i>

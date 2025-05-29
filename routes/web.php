@@ -78,6 +78,9 @@ Route::middleware('auth', 'role:tenant')
         Route::get('{property}/reviews', 'reviews')->name('reviews');
         Route::get('{property}/location', 'location')->name('location');
         Route::post('{property}/bookmark', 'bookmark')->name('bookmark');
+
+        Route::put('{property}/reviews', 'update')->name('update');
+        Route::get('{property}/reviews/create', 'review')->name('review.create');
       });
 
     Route::resource('properties', TenantPropertyController::class)->only('index', 'show');

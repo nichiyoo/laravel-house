@@ -33,19 +33,19 @@
 
         @if ($tenant->pivot->status == StatusType::PENDING)
           <div class="border-t grid grid-cols-2 text-sm font-medium">
-            <form method="POST" action="{{ route('owners.properties.approve', $property) }}">
-              @csrf
-              <input type="hidden" name="id" value="{{ $tenant->pivot->id }}">
-              <button class="px-6 py-4 flex items-center justify-center gap-2 bg-green-500 text-white w-full">
-                <span>Cancel</span>
-              </button>
-            </form>
-
             <form method="POST" action="{{ route('owners.properties.reject', $property) }}">
               @csrf
               <input type="hidden" name="id" value="{{ $tenant->pivot->id }}">
               <button class="px-6 py-4 flex items-center justify-center gap-2 bg-red-500 text-white w-full">
                 <span>Reject</span>
+              </button>
+            </form>
+
+            <form method="POST" action="{{ route('owners.properties.approve', $property) }}">
+              @csrf
+              <input type="hidden" name="id" value="{{ $tenant->pivot->id }}">
+              <button class="px-6 py-4 flex items-center justify-center gap-2 bg-green-500 text-white w-full">
+                <span>Approve</span>
               </button>
             </form>
           </div>

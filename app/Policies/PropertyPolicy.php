@@ -22,7 +22,7 @@ class PropertyPolicy
    */
   public function view(User $user, Property $property): bool
   {
-    return true;
+    return $property->owner->user->is($user);
   }
 
   /**

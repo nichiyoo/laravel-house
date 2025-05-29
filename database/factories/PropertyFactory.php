@@ -34,7 +34,7 @@ class PropertyFactory extends Factory
     ];
 
     return [
-      'name' => 'Kos ' . fake()->company(),
+      'name' => 'Kos ' . fake()->streetName(),
       'city' => fake()->city(),
       'region' => fake()->state(),
       'zipcode' => fake()->postcode(),

@@ -10,8 +10,10 @@ use App\Models\Property;
 use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class PropertyController extends Controller
@@ -199,5 +201,69 @@ class PropertyController extends Controller
     );
 
     return redirect()->back()->with('success', 'Rental request cancelled');
+  }
+
+  /**
+   * Display the review form of the specified resource.
+   */
+  public function review(Property $property): RedirectResponse|View
+  {
+    $tenant = Auth::user()->tenant;
+    $rented = $tenant->rented()
+      ->where('property_id', $property->id)
+      ->wherePivotIn('status', [
+        StatusType::APPROVED,
+        StatusType::COMPLETED,
+      ])
+      ->get();
+
+    $empty = $rented->isEmpty();
+
+    if ($empty) {
+      return redirect()->back()
+        ->with('error', "Only tenant with approved or completed rentals can review the property");
+    }
+
+    return view('tenants.properties.review.create', [
+      'property' => $property,
+      'rented' => $rented,
+    ]);
+  }
+
+  /**
+   * Update user review of the specified resource.
+   */
+  public function update(HttpRequest $request, Property $property): RedirectResponse
+  {
+    $id = $request->get('id');
+    $tenant = Auth::user()->tenant;
+    $rented = $tenant->rented()
+      ->where('property_id', $property->id)
+      ->wherePivot('id', $id)
+      ->wherePivotIn('status', [
+        StatusType::APPROVED,
+        StatusType::COMPLETED,
+      ])
+      ->first();
+
+    if (!$rented) {
+      return redirect()->back()
+        ->with('error', 'Property not rented by the tenant');
+    }
+
+    $validated = $request->validate([
+      'id' => ['required', 'integer'],
+      'rating' => ['required', 'integer', 'min:1', 'max:5'],
+      'review' => ['required', 'string', 'max:255'],
+    ]);
+
+    $validated = (object) $validated;
+    $rented->pivot->review = $validated->review;
+    $rented->pivot->rating = $validated->rating;
+    $rented->pivot->is_reviewed = true;
+    $rented->pivot->save();
+
+    return redirect()->route('tenants.properties.reviews', $property)
+      ->with('success', 'Review updated successfully');
   }
 }

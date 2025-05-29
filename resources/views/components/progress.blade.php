@@ -38,6 +38,6 @@
 
   <div class="mt-4">
     <input type="number" name="{{ $name }}" x-bind:value="value" x-on:input="updateValue"
-      class="w-full p-3 text-sm focus:border-primary-500 focus:ring-primary-500 rounded-xl" />
+      class="w-full p-3 text-sm border-border focus:border-primary-500 focus:ring-primary-500 rounded-xl" />
   </div>
 </div>
