@@ -95,7 +95,8 @@ class PropertyController extends Controller
     $tenant->bookmarks()->toggle($property);
     $bookmarked = $tenant->bookmarks->contains($property);
 
-    return redirect()->back()->with('success', $bookmarked ? 'Property bookmarked successfully' : 'Property removed from bookmarks');
+    return redirect()->back()
+      ->with('success', $bookmarked ? 'Property bookmarked successfully' : 'Property removed from bookmarks');
   }
 
   /**
@@ -129,7 +130,40 @@ class PropertyController extends Controller
     DB::commit();
 
     return redirect()
-      ->route('tenants.properties.show', $property)
-      ->with('success', 'rental request submitted successfully');
+      ->route('tenants.applications')
+      ->with('success', 'Rental request submitted successfully');
+  }
+
+  /**
+   * Cancel the specified resource.
+   */
+  public function cancel(Property $property, Request $request): RedirectResponse
+  {
+    $id = $request->get('id');
+
+    $tenant = Auth::user()->tenant;
+    $rented = $tenant->rented()
+      ->where('property_id', $property->id)
+      ->wherePivot('id', $id)
+      ->first();
+
+    if (!$rented) {
+      return redirect()->back()
+        ->with('error', 'Property not rented by the tenant');
+    }
+
+    if ($rented->pivot->status != StatusType::PENDING) {
+      return redirect()->back()
+        ->with('error', 'Rental request is not pending');
+    }
+
+    DB::beginTransaction();
+    $rented->pivot->status = StatusType::CANCELLED;
+    $rented->pivot->save();
+    $property->increment('capacity');
+    $property->save();
+    DB::commit();
+
+    return redirect()->back()->with('success', 'Rental request cancelled');
   }
 }

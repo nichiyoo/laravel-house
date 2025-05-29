@@ -57,6 +57,7 @@ class Tenant extends Model
   {
     return $this->belongsToMany(Property::class, 'tenant_properties')
       ->withPivot(
+        'id',
         'start',
         'duration',
         'rating',

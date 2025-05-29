@@ -26,7 +26,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const property = @json($property);
-        const price = Number({{ $property->min_price }});
+        const price = Number({{ $property->price }});
 
         const location = [property.latitude, property.longitude];
         const map = L.map('map', {

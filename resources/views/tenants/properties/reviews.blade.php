@@ -6,7 +6,7 @@
           <x-profile :user="$review->user" />
           <x-rating :rating="$review->pivot->rating" />
         </div>
-        <p class="text-zinc-500">{{ $review->pivot->review }}</p>
+        <p class="text-base-500">{{ $review->pivot->review }}</p>
       </div>
     @empty
       <x-empty />

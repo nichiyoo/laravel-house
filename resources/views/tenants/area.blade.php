@@ -1,7 +1,7 @@
 <x-app-layout>
   <div class="grid gap-6">
     <div id="map" class="absolute inset-0 z-0 w-full h-screen"></div>
-    <div class="absolute inset-0 bg-gradient-to-b from-zinc-900 to-30% to-transparent pointer-events-none">
+    <div class="absolute inset-0 bg-gradient-to-b from-base-900 to-30% to-transparent pointer-events-none">
     </div>
 
     <section class="relative text-white">

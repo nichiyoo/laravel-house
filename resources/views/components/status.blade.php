@@ -11,10 +11,10 @@
       ])
       ->class([
           'flex items-start gap-2',
-          'bg-green-600 text-zinc-50' => $variant === 'success',
-          'bg-yellow-600 text-zinc-50' => $variant === 'warning',
-          'bg-red-600 text-zinc-50' => $variant === 'error',
-          'bg-blue-600 text-zinc-50' => $variant === 'info',
+          'bg-green-600 text-base-50' => $variant === 'success',
+          'bg-yellow-600 text-base-50' => $variant === 'warning',
+          'bg-red-600 text-base-50' => $variant === 'error',
+          'bg-blue-600 text-base-50' => $variant === 'info',
       ]);
 @endphp
 

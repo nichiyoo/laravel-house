@@ -3,20 +3,20 @@
 
   <section class="absolute inset-0 w-full p-side">
     <div class="flex items-center justify-between gap-2">
-      <a href="{{ route('owners.properties.show', $property) }}">
+      <a href="{{ route('tenants.properties.show', $property) }}">
         <x-button size="icon">
           <i data-lucide="chevron-left" class="size-5"></i>
           <span class="sr-only">Back</span>
         </x-button>
       </a>
 
-      <x-delete id="{{ $property->id }}" title="{{ $property->name }}"
-        route="{{ route('owners.properties.destroy', $property) }}">
-        <x-button size="icon" variant="destructive">
-          <i data-lucide="trash" class="size-5"></i>
-          <span class="sr-only">Delete</span>
+      <form method="POST" action="{{ route('tenants.properties.bookmark', $property) }}">
+        @csrf
+        <x-button size="icon">
+          <i data-lucide="bookmark" class="size-5 @if ($property->bookmarked) fill-current @endif"></i>
+          <span class="sr-only">Bookmark</span>
         </x-button>
-      </x-delete>
+      </form>
     </div>
   </section>
 
@@ -26,7 +26,7 @@
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         const property = @json($property);
-        const price = Number({{ $property->min_price }});
+        const price = Number({{ $property->price }});
 
         const location = [property.latitude, property.longitude];
         const map = L.map('map', {

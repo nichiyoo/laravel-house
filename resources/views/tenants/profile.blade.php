@@ -10,7 +10,7 @@
         <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-32 h-32 rounded-full" />
         <div class="flex flex-col text-center">
           <span class="text-2xl font-semibold">{{ Auth::user()->name }}</span>
-          <span class="text-sm text-zinc-500">{{ Auth::user()->email }}</span>
+          <span class="text-sm text-base-500">{{ Auth::user()->email }}</span>
         </div>
       </div>
     </section>

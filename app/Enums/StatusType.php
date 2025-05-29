@@ -5,6 +5,7 @@ namespace App\Enums;
 enum StatusType: string
 {
   case PENDING = 'pending';
+  case CANCELLED = 'cancelled';
   case APPROVED = 'approved';
   case REJECTED = 'rejected';
   case COMPLETED = 'completed';
@@ -18,6 +19,7 @@ enum StatusType: string
   {
     return match ($this) {
       self::PENDING => 'Pending',
+      self::CANCELLED => 'Cancelled',
       self::APPROVED => 'Approved',
       self::REJECTED => 'Rejected',
       self::COMPLETED => 'Completed',
@@ -35,7 +37,8 @@ enum StatusType: string
       self::PENDING => 'Waiting for approval',
       self::APPROVED => 'Approved by the owner',
       self::REJECTED => 'Rejected by the owner',
-      self::COMPLETED => 'Completed',
+      self::COMPLETED => 'Rental period completed',
+      self::CANCELLED => 'Rental application cancelled',
     };
   }
 
@@ -51,6 +54,7 @@ enum StatusType: string
       self::APPROVED => 'bg-green-500',
       self::REJECTED => 'bg-red-500',
       self::COMPLETED => 'bg-blue-500',
+      self::CANCELLED => 'bg-red-500',
     };
   }
 }

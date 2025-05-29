@@ -23,7 +23,7 @@
               class="relative flex-none mr-4 overflow-hidden embla__slide basis-11/12 aspect-thumbnail size-full rounded-2xl side">
               <img src="{{ $property->backdrop ?? asset('images/property.jpg') }}" alt="{{ $property->name }}"
                 class="absolute object-cover size-full" />
-              <div class="absolute inset-0 bg-gradient-to-tr from-zinc-950/80 to-transparent"></div>
+              <div class="absolute inset-0 bg-gradient-to-tr from-base-950/80 to-transparent"></div>
 
               <div class="relative flex flex-col justify-end h-full p-6 text-white">
                 <span>Rp {{ number_format($property->price) }}</span>

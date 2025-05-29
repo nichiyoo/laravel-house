@@ -23,10 +23,10 @@
           @method('DELETE')
 
           <div class="p-side grid gap-4">
-            <h5 class="text-lg font-semibold text-zinc-900">
+            <h5 class="text-lg font-semibold text-base-900">
               Are you sure you want to delete <span x-text="title"></span>?
             </h5>
-            <p class="text-zinc-600 text-wrap">
+            <p class="text-base-600 text-wrap">
               Be careful! This action cannot be undone. All of the data will be permanently removed,
               including all related data, make sure you have a backup of the data before proceeding.
             </p>

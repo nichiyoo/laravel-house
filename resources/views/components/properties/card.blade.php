@@ -3,7 +3,11 @@
     'transaction' => null,
 ])
 
-<div class="card">
+@php
+  use App\Enums\StatusType;
+@endphp
+
+<div class="card overflow-hidden">
   <div class="flex items-center justify-between gap-4 p-4">
     <x-profile :user="$property->owner->user" />
 
@@ -22,30 +26,27 @@
     <img src="{{ $property->backdrop ?? asset('images/property.jpg') }}" alt="{{ $property->name }}"
       class="object-cover size-full" />
 
-    <div class="absolute top-0 right-0 w-full p-4 text-xs font-medium">
+    <div class="absolute inset-0 w-full p-6">
       <div class="flex items-center justify-between">
-        <div class="flex items-center gap-2 px-2 py-1 text-yellow-400 rounded-full bg-base-50">
-          <i data-lucide="star" class="fill-current size-5"></i>
-          <span>
-            {{ $property->rating ? round($property->rating, 1) : 'Not rated' }}
-          </span>
-        </div>
+        <x-badge variant="primary">
+          <x-rating rating="{{ $property->rating }}" size="small" />
+        </x-badge>
 
         @tenant
-          <div class="px-2 py-1 rounded-full bg-base-50">
+          <x-badge variant="secondary">
             <span>{{ round($property->distance, 1) }} Km</span>
-          </div>
+          </x-badge>
         @endtenant
       </div>
     </div>
   </div>
 
-  <div class="flex flex-col gap-1 p-6">
-    <h3>{{ $property->name }}</h3>
-    <p class="text-sm truncate text-base-500">{{ $property->address }}</p>
-    <p class="flex items-center gap-2 text-primary-500">
-      <span>Rp {{ number_format($property->price) }}</span>
-    </p>
+  <div class="grid gap-2 p-6">
+    <div>
+      <h3 class="font-medium">{{ $property->name }}</h3>
+      <p class="text-sm truncate text-base-500">{{ $property->address }}</p>
+    </div>
+    <span class="text-primary-500">Rp {{ number_format($property->price) }}/month</span>
   </div>
 
   @if ($transaction)
@@ -55,6 +56,7 @@
           'start' => $transaction->start->format('d M Y'),
           'total' => 'Rp ' . number_format($property->price * $transaction->duration * $property->interval->ratio()),
           'method' => $transaction->method->label(),
+          'duration' => $transaction->duration * $property->interval->ratio() . ' months',
       ];
     @endphp
 
@@ -62,11 +64,27 @@
       @foreach ($details as $key => $value)
         <dl class="flex items-end gap-2 text-sm">
           <dt class="capitalize font-medium whitespace-nowrap">{{ $key }}</dt>
-          <hr class="w-full border-b border-dashed border-base-300 mb-1">
+          <hr class="w-full border-b border-dashed mb-1">
           <dd class="whitespace-nowrap">{{ $value }}</dd>
-
         </dl>
       @endforeach
+    </div>
+  @endif
+
+  @if ($transaction && $transaction->status == StatusType::PENDING)
+    <div class="border-t grid grid-cols-2 text-sm font-medium">
+      <form method="POST" action="{{ route('tenants.properties.cancel', $property) }}">
+        @csrf
+        <input type="hidden" name="id" value="{{ $transaction->id }}">
+        <button class="px-6 py-4 flex items-center justify-center gap-2 bg-red-500 text-white w-full">
+          <span>Cancel</span>
+        </button>
+      </form>
+
+      <a href="{{ route('tenants.properties.show', $property) }}"
+        class="border-r px-6 py-4 flex items-center justify-center gap-2">
+        <span>Chat</span>
+      </a>
     </div>
   @endif
 </div>

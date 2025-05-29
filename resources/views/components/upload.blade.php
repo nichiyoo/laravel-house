@@ -29,13 +29,13 @@
 
   <div x-show="preview" class="relative aspect-thumbnail">
     <img x-bind:src="preview" class="object-cover size-full rounded-xl">
-    <div class="absolute inset-0 transition-opacity opacity-0 hover:opacity-100 bg-zinc-900/50">
+    <div class="absolute inset-0 transition-opacity opacity-0 hover:opacity-100 bg-base-900/50">
       <div class="flex items-center justify-center gap-2 size-full">
-        <button type="button" x-on:click="$refs.input.click()" class="p-2 bg-zinc-50 rounded-full hover:bg-zinc-100">
-          <i data-lucide="pencil" class="size-5 text-zinc-700"></i>
+        <button type="button" x-on:click="$refs.input.click()" class="p-2 bg-base-50 rounded-full hover:bg-base-100">
+          <i data-lucide="pencil" class="size-5 text-base-700"></i>
         </button>
-        <button type="button" x-on:click="clear()" class="p-2 bg-zinc-50 rounded-full hover:bg-zinc-100">
-          <i data-lucide="trash" class="size-5 text-zinc-700"></i>
+        <button type="button" x-on:click="clear()" class="p-2 bg-base-50 rounded-full hover:bg-base-100">
+          <i data-lucide="trash" class="size-5 text-base-700"></i>
         </button>
       </div>
     </div>

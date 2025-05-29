@@ -22,7 +22,7 @@
     <div class="absolute top-0 w-full aspect-square">
       <img src="{{ $property->backdrop ?? asset('images/property.jpg') }}" alt="{{ $property->name }}"
         class="object-cover size-full" />
-      <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-base-950 to-transparent"></div>
     </div>
 
     <main class="h-content overflow-y-auto relative">
@@ -48,14 +48,14 @@
           <x-profile :user="$property->owner->user" />
         </div>
 
-        <section class="grid bg-zinc-50 rounded-t-3xl -mt-16">
+        <section class="grid bg-base-50 rounded-t-3xl -mt-16">
           <div class="flex flex-col py-6 overflow-hidden p-side">
-            <span class="text-sm text-zinc-400">Detail</span>
+            <span class="text-sm text-base-400">Detail</span>
             <h2 class="truncate text-2xl font-semibold">
               {{ $property->name }}
             </h2>
 
-            <span class="truncate text-zinc-500">{{ $property->address }}</span>
+            <span class="truncate text-base-500">{{ $property->address }}</span>
 
             <div class="flex items-center justify-between mt-2">
               <x-rating rating="{{ $property->rating }}" expanded />
@@ -63,43 +63,61 @@
             </div>
           </div>
 
-          <div class="grid grid-cols-2 border-y border-zinc-200">
-            <div class="flex items-center justify-center p-4 border-r border-zinc-200">
-              <a href="{{ route('tenants.properties.show', $property) }}"
-                class="@if (request()->routeIs('tenants.properties.show', $property)) text-primary-500 @endif">
-                <span>Detail</span>
-              </a>
-            </div>
-            <div class="flex items-center justify-center p-4 border-r border-zinc-200">
-              <a href="{{ route('tenants.properties.reviews', $property) }}"
-                class="@if (request()->routeIs('tenants.properties.reviews', $property)) text-primary-500 @endif">
-                <span>Review</span>
-              </a>
-            </div>
+          <div class="grid grid-cols-2 border-y">
+            @php
+              $tabs = collect([
+                  [
+                      'label' => 'Detail',
+                      'route' => route('tenants.properties.show', $property),
+                      'active' => request()->routeIs('tenants.properties.show', $property),
+                  ],
+                  [
+                      'label' => 'Review',
+                      'route' => route('tenants.properties.reviews', $property),
+                      'active' => request()->routeIs('tenants.properties.reviews', $property),
+                  ],
+              ])->map(fn($tab) => (object) $tab);
+            @endphp
+
+            @foreach ($tabs as $tab)
+              <div class="flex items-center justify-center p-4 border-r">
+                <a href="{{ $tab->route }}" class="@if ($tab->active) text-primary-500 @endif">
+                  <span>{{ $tab->label }}</span>
+                </a>
+              </div>
+            @endforeach
           </div>
 
-          <div class="min-h-screen">
-            {{ $slot }}
-          </div>
+          {{ $slot }}
         </section>
       </div>
     </main>
 
-    <nav class="h-navbar border-t">
+    <nav class="h-navbar border-t bg-base-50">
       <div class="grid gap-4 grid-cols-2 p-4">
-        <a href="{{ route('tenants.properties.location', $property) }}">
-          <x-button variant="secondary">
-            <i data-lucide="map" class="size-5"></i>
-            <span>Location</span>
-          </x-button>
-        </a>
+        @php
+          $actions = collect([
+              [
+                  'label' => 'Location',
+                  'route' => route('tenants.properties.location', $property),
+                  'icon' => 'map',
+              ],
+              [
+                  'label' => 'Rent',
+                  'route' => route('tenants.properties.rent', $property),
+                  'icon' => 'shopping-bag',
+              ],
+          ])->map(fn($action) => (object) $action);
+        @endphp
 
-        <a href="{{ route('tenants.properties.rent', $property) }}">
-          <x-button>
-            <i data-lucide="shopping-bag" class="size-5"></i>
-            <span>Rent</span>
-          </x-button>
-        </a>
+        @foreach ($actions as $action)
+          <a href="{{ $action->route }}">
+            <x-button variant="secondary">
+              <i data-lucide="{{ $action->icon }}" class="size-5"></i>
+              <span>{{ $action->label }}</span>
+            </x-button>
+          </a>
+        @endforeach
       </div>
     </nav>
   </div>

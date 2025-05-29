@@ -7,7 +7,7 @@
   $props = $attributes
       ->class([
           'disabled:bg-base-200 disabled:text-base-500' => $disabled,
-          'bg-base-50 text-base-500 focus:ring-0 focus:border-border' => $readonly,
+          'bg-base-50 text-base-500 focus:ring-0 focus:border' => $readonly,
       ])
       ->merge([
           'disabled' => $disabled,

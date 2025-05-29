@@ -1,6 +1,6 @@
 <x-detail-layout :property="$property">
   <div class="grid gap-6 p-side">
-    <p class="text-zinc-500 ">
+    <p class="text-base-500 ">
       {{ $property->description }}
     </p>
 
@@ -18,7 +18,7 @@
       @foreach ($details as $key => $value)
         <dl class=" grid gap-2">
           <dt class="font-medium">{{ $key }}</dt>
-          <dd class="text-zinc-500">{{ $value }}</dd>
+          <dd class="text-base-500">{{ $value }}</dd>
         </dl>
       @endforeach
     </div>

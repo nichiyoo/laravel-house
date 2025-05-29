@@ -31,14 +31,7 @@
           <x-properties.card :property="$property" />
         </a>
       @empty
-        <x-empty>
-          <div class="flex justify-center">
-            <a href="{{ route('tenants.properties.index') }}">
-              <x-button variant="outline">
-                Reset
-              </x-button>
-            </a>
-        </x-empty>
+        <x-empty />
       @endforelse
     </section>
   </div>

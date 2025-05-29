@@ -19,7 +19,7 @@
 @endphp
 
 <div x-data="multiple" class="grid gap-4" focusable>
-  <input {{ $props }} x-ref="input" x-on:change="change($event)" class="bg-zinc-50 border rounded-xl" />
+  <input {{ $props }} x-ref="input" x-on:change="change($event)" class="bg-base-50 border rounded-xl" />
 
   <button type="button" x-on:click="$refs.input.click()" x-show="previews.length === 0" class="aspect-thumbnail card">
     <div class="flex items-center justify-center gap-2 text-sm">

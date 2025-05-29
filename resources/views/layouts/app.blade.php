@@ -23,7 +23,7 @@
       {{ $slot }}
     </main>
 
-    <nav class="h-navbar border-t bg-zinc-50 z-10 relative">
+    <nav class="h-navbar border-t bg-base-50 z-10 relative">
       <x-navbar />
     </nav>
   </div>

@@ -24,7 +24,7 @@
     },
 }" class="w-full">
   <div class="relative w-full h-10">
-    <div class="absolute left-0 z-0 w-full h-2 rounded-full top-4 bg-zinc-200"></div>
+    <div class="absolute left-0 z-0 w-full h-2 rounded-full top-4 bg-base-200"></div>
     <div class="absolute z-10 h-2 rounded-full top-4 bg-primary-500"
       x-bind:style="{
           width: percent() + '%'
@@ -38,6 +38,6 @@
 
   <div class="mt-4">
     <input type="number" name="{{ $name }}" x-bind:value="value" x-on:input="updateValue"
-      class="w-full p-3 text-sm border-zinc-300 focus:border-primary-500 focus:ring-primary-500 rounded-xl" />
+      class="w-full p-3 text-sm focus:border-primary-500 focus:ring-primary-500 rounded-xl" />
   </div>
 </div>

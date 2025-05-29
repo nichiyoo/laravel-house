@@ -59,6 +59,7 @@ Route::middleware('auth', 'role:tenant')
       ->group(function () {
         Route::get('{property}/rent', 'rent')->name('rent');
         Route::post('{property}/rent', 'store')->name('store');
+        Route::post('{property}/cancel', 'cancel')->name('cancel');
         Route::get('{property}/reviews', 'reviews')->name('reviews');
         Route::get('{property}/location', 'location')->name('location');
         Route::post('{property}/bookmark', 'bookmark')->name('bookmark');

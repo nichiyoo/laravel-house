@@ -13,7 +13,7 @@
   </div>
 
   <div>
-    <x-label for="price" value="Price" />
+    <x-label for="price" value="Price (monthly)" />
     <x-input id="price" type="number" name="price" value="{{ old('price', $property->price) }}" required
       placeholder="Enter rental price" min="0" step="100000" />
     <x-error :messages="$errors->get('price')" />
@@ -54,7 +54,7 @@
 
           <button type="button" x-on:click="checked = !checked"
             x-bind:class="checked && 'border-primary-500 ring-1 ring-primary-500'"
-            class="flex items-center w-full gap-3 p-3 text-sm bg-zinc-50 border rounded-xl border-zinc-200">
+            class="flex items-center w-full gap-3 p-3 text-sm bg-base-50 border rounded-xl ">
             <i data-lucide="{{ $amenity->icon() }}" class="size-5"></i>
             <div class="truncate">{{ $amenity->label() }}</div>
           </button>

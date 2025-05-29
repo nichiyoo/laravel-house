@@ -13,6 +13,9 @@ class DatabaseSeeder extends Seeder
    */
   public function run(): void
   {
+    // set seed key
+
+
     $this->call([
       UserSeeder::class,
       PropertySeeder::class,
