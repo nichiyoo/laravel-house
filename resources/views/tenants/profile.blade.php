@@ -25,9 +25,14 @@
                   'icon' => 'user-round',
               ],
               [
-                  'href' => '#',
+                  'href' => route('tenants.applications'),
                   'label' => 'Applications',
                   'icon' => 'shopping-bag',
+              ],
+              [
+                  'href' => route('tenants.bookmarks'),
+                  'label' => 'Bookmarks',
+                  'icon' => 'bookmark',
               ],
               [
                   'href' => '#',

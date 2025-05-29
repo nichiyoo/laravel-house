@@ -1,5 +1,6 @@
 @props([
     'property' => null,
+    'transaction' => null,
 ])
 
 <div class="card">
@@ -46,4 +47,26 @@
       <span>Rp {{ number_format($property->price) }}</span>
     </p>
   </div>
+
+  @if ($transaction)
+    @php
+      $details = (object) [
+          'status' => $transaction->status->label(),
+          'start' => $transaction->start->format('d M Y'),
+          'total' => 'Rp ' . number_format($property->price * $transaction->duration * $property->interval->ratio()),
+          'method' => $transaction->method->label(),
+      ];
+    @endphp
+
+    <div class="border-t p-6 grid gap-1">
+      @foreach ($details as $key => $value)
+        <dl class="flex items-end gap-2 text-sm">
+          <dt class="capitalize font-medium whitespace-nowrap">{{ $key }}</dt>
+          <hr class="w-full border-b border-dashed border-base-300 mb-1">
+          <dd class="whitespace-nowrap">{{ $value }}</dd>
+
+        </dl>
+      @endforeach
+    </div>
+  @endif
 </div>

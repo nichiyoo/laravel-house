@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use stdClass;
+use Illuminate\View\View;
 
 class TenantController extends Controller
 {
@@ -91,5 +92,31 @@ class TenantController extends Controller
   public function profile()
   {
     return view('tenants.profile');
+  }
+
+  /**
+   * display tenant bookmarked properties
+   */
+  public function bookmarks(): View
+  {
+    $tenant = Auth::user()->tenant;
+    $properties = $tenant->bookmarks()->with('owner')->get();
+
+    return view('tenants.bookmarks', [
+      'properties' => $properties,
+    ]);
+  }
+
+  /**
+   * display tenant rental applications
+   */
+  public function applications(): View
+  {
+    $tenant = Auth::user()->tenant;
+    $properties = $tenant->rented()->with('owner')->get();
+
+    return view('tenants.applications', [
+      'properties' => $properties,
+    ]);
   }
 }

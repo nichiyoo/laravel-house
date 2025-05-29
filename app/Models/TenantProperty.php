@@ -4,10 +4,10 @@ namespace App\Models;
 
 use App\Enums\MethodType;
 use App\Enums\StatusType;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class TenantProperty extends Model
+class TenantProperty extends Pivot
 {
   /**
    * The attributes that are mass assignable.

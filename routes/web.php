@@ -49,6 +49,9 @@ Route::middleware('auth', 'role:tenant')
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::get('/profile', 'profile')->name('profile');
         Route::get('/area', 'area')->name('area');
+
+        Route::get('/bookmarks', 'bookmarks')->name('bookmarks');
+        Route::get('/applications', 'applications')->name('applications');
       });
 
     Route::controller(TenantPropertyController::class)
