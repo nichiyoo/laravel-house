@@ -95,6 +95,73 @@ class TenantController extends Controller
   }
 
   /**
+   * Display the edit profile page.
+   *
+   * @return \Illuminate\View\View
+   */
+  public function edit()
+  {
+    $location = new stdClass();
+
+    try {
+      $response = Http::get('http://ip-api.com/json');
+      $location = (object)[
+        'latitude' => $response->json('lat'),
+        'longitude' => $response->json('lon'),
+      ];
+    } catch (\Exception $e) {
+      $location = (object)[
+        'latitude' => -6.200000,
+        'longitude' => 106.816666,
+      ];
+    }
+
+    return view('tenants.profile.edit', [
+      'location' => $location,
+    ]);
+  }
+
+  /**
+   * Update the profile.
+   *
+   * @param \Illuminate\Http\Request $request
+   * @return \Illuminate\Http\RedirectResponse
+   */
+  public function update(Request $request)
+  {
+    $user = Auth::user();
+    $tenant = $user->tenant;
+
+    $request->validate([
+      'name' => ['required', 'string', 'max:32'],
+      'phone' => ['required', 'string', 'max:16'],
+      'avatar' => ['nullable', 'image', 'max:1024'],
+      'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+    ]);
+
+    $request->validate([
+      'address' => ['required', 'string', 'max:255'],
+      'latitude' => ['required', 'numeric', 'min:-90', 'max:90'],
+      'longitude' => ['required', 'numeric', 'min:-180', 'max:180'],
+    ]);
+
+    $validated = new stdClass();
+    $password = $request->has('password');
+    if (!$password) $validated->user = $request->only('name', 'phone');
+    else $validated->user = $request->only('name', 'phone', 'password');
+
+    $user->update($validated->user);
+    $user->storeImage($request, 'avatar');
+    $user->save();
+
+    $validated->tenant = $request->only('address', 'latitude', 'longitude');
+    $tenant->update($validated->tenant);
+    $tenant->save();
+
+    return redirect()->route('tenants.profile')->with('success', 'Profile updated successfully');
+  }
+
+  /**
    * display tenant bookmarked properties
    */
   public function bookmarks(): View

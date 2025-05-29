@@ -21,7 +21,7 @@
           @foreach ($nearest as $property)
             <a href="{{ route('tenants.properties.show', $property) }}"
               class="relative flex-none mr-4 overflow-hidden embla__slide basis-11/12 aspect-thumbnail size-full rounded-2xl side">
-              <img src="{{ $property->backdrop ?? asset('images/property.jpg') }}" alt="{{ $property->name }}"
+              <img src="{{ $property->backdrop }}" alt="{{ $property->name }}"
                 class="absolute object-cover size-full" />
               <div class="absolute inset-0 bg-gradient-to-tr from-base-950/80 to-transparent"></div>
 
@@ -57,8 +57,7 @@
                 <a href="{{ route('tenants.properties.show', $property) }}"
                   class="grid items-center grid-cols-3 gap-4 overflow-hidden card">
                   <div class="aspect-square">
-                    <img src="{{ $property->backdrop ?? asset('images/property.jpg') }}" alt="{{ $property->name }}"
-                      class="object-cover size-full" />
+                    <img src="{{ $property->backdrop }}" alt="{{ $property->name }}" class="object-cover size-full" />
                   </div>
                   <div class="col-span-2 font-medium">
                     <h4 class="truncate">{{ $property->name }}</h4>

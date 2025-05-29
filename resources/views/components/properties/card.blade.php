@@ -18,8 +18,7 @@
   </div>
 
   <div class="relative w-full aspect-video bg-base-100">
-    <img src="{{ $property->backdrop ?? asset('images/property.jpg') }}" alt="{{ $property->name }}"
-      class="object-cover size-full" />
+    <img src="{{ $property->backdrop }}" alt="{{ $property->name }}" class="object-cover size-full" />
 
     <div class="absolute inset-0 w-full p-6">
       <div class="flex items-center justify-between">

@@ -10,24 +10,24 @@ use App\Http\Controllers\Owners\PropertyController as OwnerPropertyController;
 use App\Http\Controllers\Tenants\TenantController;
 use App\Http\Controllers\Tenants\PropertyController as TenantPropertyController;
 
-Route::get('/', fn() => view('welcome'))->middleware('guest')->name('home');
+Route::get('', fn() => view('welcome'))->middleware('guest')->name('home');
 
 Route::middleware('auth')
   ->controller(AppController::class)
   ->group(function () {
-    Route::get('/dashboard', 'dashboard')->name('dashboard');
-    Route::get('/profile', 'profile')->name('profile');
-    Route::get('/help', 'help')->name('help');
+    Route::get('help', 'help')->name('help');
+    Route::get('profile', 'profile')->name('profile');
+    Route::get('dashboard', 'dashboard')->name('dashboard');
 
     Route::controller(NotificationController::class)
       ->prefix('notifications')
       ->as('notifications.')
       ->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::put('/read', 'read')->name('read');
-        Route::put('/read/all', 'all')->name('all');
-        Route::delete('/remove/all', 'purge')->name('purge');
-        Route::delete('/remove/{notification}', 'destroy')->name('destroy');
+        Route::get('', 'index')->name('index');
+        Route::put('read', 'read')->name('read');
+        Route::put('read/all', 'all')->name('all');
+        Route::delete('remove/all', 'purge')->name('purge');
+        Route::delete('remove/{notification}', 'destroy')->name('destroy');
       });
   });
 
@@ -37,9 +37,17 @@ Route::middleware('auth', 'role:owner')
   ->group(function () {
     Route::controller(OwnerController::class)
       ->group(function () {
-        Route::get('/dashboard', 'dashboard')->name('dashboard');
-        Route::get('/profile', 'profile')->name('profile');
-        Route::get('/applications', 'applications')->name('applications');
+        Route::get('profile', 'profile')->name('profile');
+        Route::get('dashboard', 'dashboard')->name('dashboard');
+        Route::get('applications', 'applications')->name('applications');
+      });
+
+    Route::controller(OwnerController::class)
+      ->prefix('profile')
+      ->as('profile.')
+      ->group(function () {
+        Route::get('edit', 'edit')->name('edit');
+        Route::put('update', 'update')->name('update');
       });
 
     Route::controller(OwnerPropertyController::class)
@@ -62,11 +70,19 @@ Route::middleware('auth', 'role:tenant')
   ->group(function () {
     Route::controller(TenantController::class)
       ->group(function () {
-        Route::get('/dashboard', 'dashboard')->name('dashboard');
-        Route::get('/profile', 'profile')->name('profile');
-        Route::get('/area', 'area')->name('area');
-        Route::get('/bookmarks', 'bookmarks')->name('bookmarks');
-        Route::get('/applications', 'applications')->name('applications');
+        Route::get('dashboard', 'dashboard')->name('dashboard');
+        Route::get('profile', 'profile')->name('profile');
+        Route::get('area', 'area')->name('area');
+        Route::get('bookmarks', 'bookmarks')->name('bookmarks');
+        Route::get('applications', 'applications')->name('applications');
+      });
+
+    Route::controller(TenantController::class)
+      ->prefix('profile')
+      ->as('profile.')
+      ->group(function () {
+        Route::get('edit', 'edit')->name('edit');
+        Route::put('update', 'update')->name('update');
       });
 
     Route::controller(TenantPropertyController::class)

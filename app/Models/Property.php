@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Property extends Model
 {
@@ -55,6 +56,17 @@ class Property extends Model
       'interval' => IntervalType::class,
       'amenities' => AsEnumCollection::of(AmenityType::class),
     ];
+  }
+
+  /**
+   * get user avatar
+   */
+  protected function backdrop(): Attribute
+  {
+    $default = asset('images/property.jpg');
+    return Attribute::make(
+      get: fn() => $this->attributes['backdrop'] ?? $default
+    );
   }
 
   /**

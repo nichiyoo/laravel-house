@@ -112,15 +112,15 @@
 
   <div>
     <x-label for="latitude" value="Latitude" />
-    <x-input id="latitude" type="text" name="latitude"
-      value="{{ old('latitude', $property->latitude ?? $location->latitude) }}" required readonly />
+    <x-input id="latitude" type="text" name="latitude" value="{{ old('latitude', $property->latitude) }}" required
+      readonly />
     <x-error :messages="$errors->get('latitude')" />
   </div>
 
   <div>
     <x-label for="longitude" value="Longitude" />
-    <x-input id="longitude" type="text" name="longitude"
-      value="{{ old('longitude', $property->longitude ?? $location->longitude) }}" required readonly />
+    <x-input id="longitude" type="text" name="longitude" value="{{ old('longitude', $property->longitude) }}"
+      required readonly />
     <x-error :messages="$errors->get('longitude')" />
   </div>
 </div>
