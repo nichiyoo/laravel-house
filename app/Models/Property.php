@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Distance;
 use App\Enums\AmenityType;
 use App\Enums\IntervalType;
 use App\Traits\HasImageUpload;
@@ -104,5 +105,23 @@ class Property extends Model
   {
     $tenant = Auth::user()->tenant;
     return $this->bookmarks()->where('tenant_id', $tenant->id)->exists();
+  }
+
+  /**
+   * Getter for the distance property.
+   *
+   * @return float
+   */
+  public function getDistanceAttribute(): float
+  {
+    $tenant = Auth::user()->tenant;
+
+    if (!$tenant) return 0;
+    return Distance::haversine(
+      $tenant->latitude,
+      $tenant->longitude,
+      $this->latitude,
+      $this->longitude
+    );
   }
 }

@@ -14,6 +14,7 @@ class PropertySeeder extends Seeder
   public function run(): void
   {
     $owner = Owner::first();
+
     Property::factory()->count(3)->create([
       'owner_id' => $owner->id,
     ]);

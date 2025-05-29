@@ -22,6 +22,8 @@ class AppController extends Controller
         return redirect()->route('owners.dashboard');
 
       case RoleType::TENANT:
+        return redirect()->route('tenants.dashboard');
+
       case RoleType::ADMIN:
       default:
         return redirect()->route('home');
@@ -53,6 +55,8 @@ class AppController extends Controller
         return redirect()->route('owners.profile');
 
       case RoleType::TENANT:
+        return redirect()->route('tenants.profile');
+
       case RoleType::ADMIN:
       default:
         return redirect()->route('home');

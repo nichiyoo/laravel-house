@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Owner;
+namespace App\Http\Controllers\Owners;
 
 use App\Enums\AmenityType;
 use App\Enums\IntervalType;

@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Owner\PropertyController;
-use App\Http\Controllers\OwnerController;
+
+use App\Http\Controllers\Owners\PropertyController;
+use App\Http\Controllers\Owners\OwnerController;
+
+use App\Http\Controllers\Tenants\TenantController;
+use App\Http\Controllers\Tenants\PropertyController as TenantPropertyController;
 
 Route::get('/', fn() => view('welcome'))->middleware('guest')->name('home');
 
@@ -32,7 +36,33 @@ Route::middleware('auth', 'role:owner')
         Route::get('{property}/reviews', 'reviews')->name('reviews');
         Route::get('{property}/location', 'location')->name('location');
       });
+
     Route::resource('properties', PropertyController::class);
+  });
+
+Route::middleware('auth', 'role:tenant')
+  ->prefix('tenants')
+  ->name('tenants.')
+  ->group(function () {
+    Route::controller(TenantController::class)
+      ->group(function () {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
+        Route::get('/profile', 'profile')->name('profile');
+        Route::get('/area', 'area')->name('area');
+      });
+
+    Route::controller(TenantPropertyController::class)
+      ->prefix('properties')
+      ->as('properties.')
+      ->group(function () {
+        Route::get('{property}/rent', 'rent')->name('rent');
+        Route::post('{property}/rent', 'store')->name('store');
+        Route::get('{property}/reviews', 'reviews')->name('reviews');
+        Route::get('{property}/location', 'location')->name('location');
+        Route::post('{property}/bookmark', 'bookmark')->name('bookmark');
+      });
+
+    Route::resource('properties', TenantPropertyController::class)->only('index', 'show');
   });
 
 require __DIR__ . '/auth.php';

@@ -22,6 +22,17 @@ class PropertyFactory extends Factory
     $intervals = array_map(fn(IntervalType $interval) => $interval->value, IntervalType::cases());
     $amenities = array_map(fn(AmenityType $amenity) => $amenity->value, AmenityType::cases());
 
+    $jakarta = (object) [
+      'latitude' => (object) [
+        'min' => -6.1751,
+        'max' => -6.2087,
+      ],
+      'longitude' => (object) [
+        'min' => 106.8272,
+        'max' => 106.8992,
+      ],
+    ];
+
     return [
       'name' => 'Kos ' . fake()->company(),
       'city' => fake()->city(),
@@ -32,8 +43,8 @@ class PropertyFactory extends Factory
       'capacity' => fake()->numberBetween(1, 10),
       'interval' => fake()->randomElement($intervals),
       'description' => fake()->paragraphs(3, true),
-      'latitude' => fake()->latitude(),
-      'longitude' => fake()->longitude(),
+      'latitude' => fake()->randomFloat(6, $jakarta->latitude->min, $jakarta->latitude->max),
+      'longitude' => fake()->randomFloat(6, $jakarta->longitude->min, $jakarta->longitude->max),
       'backdrop' => null,
       'images' => null,
       'amenities' => fake()->randomElements($amenities, 6),

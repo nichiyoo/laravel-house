@@ -16,10 +16,14 @@
 
 <body>
   <div class="mobile h-screen overflow-hidden">
+    <x-status variant="success" status="{{ session('success') }}" />
+    <x-status variant="error" status="{{ session('error') }}" />
+
     <main class="h-content overflow-y-auto relative grid gap-6">
 
       <div class="absolute top-0 w-full aspect-square">
-        <img src="{{ $property->backdrop }}" alt="{{ $property->name }}" class="object-cover size-full" />
+        <img src="{{ $property->backdrop ?? asset('images/property.jpg') }}" alt="{{ $property->name }}"
+          class="object-cover size-full" />
         <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent"></div>
       </div>
 

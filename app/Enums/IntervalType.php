@@ -71,4 +71,34 @@ enum IntervalType: string
 
     return $price * $ratio;
   }
+
+  /**
+   * Get the unit name for the interval type.
+   *
+   * @return string
+   */
+  public function unit(): string
+  {
+    return match ($this) {
+      self::MONTHLY => 'month',
+      self::QUARTERLY => 'quarter',
+      self::HALFYEAR => 'half year',
+      self::YEARLY => 'year',
+    };
+  }
+
+  /**
+   * Get the ratio for the interval type.
+   *
+   * @return int
+   */
+  public function ratio(): int
+  {
+    return match ($this) {
+      self::MONTHLY => 1,
+      self::QUARTERLY => 3,
+      self::HALFYEAR => 6,
+      self::YEARLY => 12,
+    };
+  }
 }
