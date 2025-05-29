@@ -15,10 +15,6 @@
         }).format(this.total);
     }
 }">
-  <pre>
-      {{ json_encode($errors, JSON_PRETTY_PRINT) }}
-</pre>
-
   <div class="col-span-full">
     <x-label for="name" value="Full Name" />
     <x-input id="name" type="text" name="name" value="{{ Auth::user()->name }}" required readonly />

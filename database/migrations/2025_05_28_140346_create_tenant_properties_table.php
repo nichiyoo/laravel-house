@@ -27,6 +27,7 @@ return new class extends Migration
       $table->integer('duration');
       $table->integer('rating')->nullable();
       $table->string('review')->nullable();
+      $table->boolean('is_reviewed')->default(false);
       $table->enum('method', $methods)->default(MethodType::CASH->value);
       $table->enum('status', $statuses)->default(StatusType::PENDING->value);
     });

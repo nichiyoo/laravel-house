@@ -23,6 +23,7 @@ class TenantProperty extends Pivot
     'status',
     'rating',
     'review',
+    'is_reviewed',
   ];
 
   /**
@@ -36,6 +37,7 @@ class TenantProperty extends Pivot
       'start' => 'date',
       'method' => MethodType::class,
       'status' => StatusType::class,
+      'is_reviewed' => 'boolean',
     ];
   }
 

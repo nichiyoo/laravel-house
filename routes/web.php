@@ -3,8 +3,8 @@
 use App\Http\Controllers\AppController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Owners\PropertyController;
 use App\Http\Controllers\Owners\OwnerController;
+use App\Http\Controllers\Owners\PropertyController as OwnerPropertyController;
 
 use App\Http\Controllers\Tenants\TenantController;
 use App\Http\Controllers\Tenants\PropertyController as TenantPropertyController;
@@ -29,7 +29,7 @@ Route::middleware('auth', 'role:owner')
         Route::get('/profile', 'profile')->name('profile');
       });
 
-    Route::controller(PropertyController::class)
+    Route::controller(OwnerPropertyController::class)
       ->prefix('properties')
       ->as('properties.')
       ->group(function () {
@@ -37,7 +37,7 @@ Route::middleware('auth', 'role:owner')
         Route::get('{property}/location', 'location')->name('location');
       });
 
-    Route::resource('properties', PropertyController::class);
+    Route::resource('properties', OwnerPropertyController::class);
   });
 
 Route::middleware('auth', 'role:tenant')
@@ -49,7 +49,6 @@ Route::middleware('auth', 'role:tenant')
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::get('/profile', 'profile')->name('profile');
         Route::get('/area', 'area')->name('area');
-
         Route::get('/bookmarks', 'bookmarks')->name('bookmarks');
         Route::get('/applications', 'applications')->name('applications');
       });

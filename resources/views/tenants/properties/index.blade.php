@@ -31,20 +31,14 @@
           <x-properties.card :property="$property" />
         </a>
       @empty
-        <div class="flex flex-col justify-center gap-4 h-96">
-          <div class="flex items-center justify-center gap-2 text-zinc-500">
-            <span>Oops! No properties found.</span>
-            <i data-lucide="search" class="size-4"></i>
-          </div>
-
+        <x-empty>
           <div class="flex justify-center">
             <a href="{{ route('tenants.properties.index') }}">
               <x-button variant="outline">
                 Reset
               </x-button>
             </a>
-          </div>
-        </div>
+        </x-empty>
       @endforelse
     </section>
   </div>

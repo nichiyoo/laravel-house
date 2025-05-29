@@ -76,6 +76,7 @@ class Property extends Model
         'duration',
         'rating',
         'review',
+        'is_reviewed',
         'method',
         'status'
       )

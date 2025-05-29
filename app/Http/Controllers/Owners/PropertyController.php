@@ -158,7 +158,9 @@ class PropertyController extends Controller
   {
     return view('owners.properties.reviews', [
       'property' => $property->load('owner'),
-      'reviews' => $property->tenants()->with('user')->get(),
+      'reviews' => $property->tenants()->with('user')
+        ->wherePivot('is_reviewed', true)
+        ->get(),
     ]);
   }
 

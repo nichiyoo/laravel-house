@@ -12,7 +12,7 @@
     </section>
 
     <section class="relative">
-      <x-search />
+      <x-search action="{{ route('tenants.properties.index') }}" />
     </section>
   </div>
 
