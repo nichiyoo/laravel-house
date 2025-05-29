@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class PropertyController extends Controller
@@ -33,6 +32,7 @@ class PropertyController extends Controller
     $max = $request->get('price_max');
     $rating = $request->get('rating');
     $distance = $request->get('distance');
+    $interval = $request->get('interval');
 
     $properties = Property::with('owner')
       ->when($keyword, function ($query) use ($keyword) {
@@ -49,6 +49,9 @@ class PropertyController extends Controller
           $min,
           $max
         ]);
+      })
+      ->when($interval, function ($query) use ($interval) {
+        return $query->where('interval', $interval);
       })
       ->get();
 

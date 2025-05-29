@@ -2,6 +2,12 @@
     'route' => null,
 ])
 
+@php
+  use App\Enums\IntervalType;
+
+  $intervals = IntervalType::cases();
+@endphp
+
 <div x-data="filter" x-init="$el.querySelector('button').addEventListener('click', (e) => {
     e.preventDefault();
     $dispatch('trigger', {
@@ -21,6 +27,18 @@
               <x-label for="query" value="Search property" />
               <x-input id="query" name="query" type="search" placeholder="Search property"
                 value="{{ request()->get('query') }}" />
+            </div>
+
+            <div>
+              <x-label for="interval" value="Payment" />
+              <x-select id="interval" name="interval">
+                <option value="" @selected(request()->get('interval') === null)>All</option>
+                @foreach ($intervals as $interval)
+                  <option value="{{ $interval->value }}" @selected(request()->get('interval') === $interval->value)>
+                    {{ $interval->label() }}
+                  </option>
+                @endforeach
+              </x-select>
             </div>
 
             <div>
