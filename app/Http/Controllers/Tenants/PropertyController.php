@@ -7,6 +7,7 @@ use App\Enums\StatusType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRentRequest;
 use App\Models\Property;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,11 @@ use Illuminate\View\View;
 
 class PropertyController extends Controller
 {
+  public function __construct(private NotificationService $notification)
+  {
+    // 
+  }
+
   /**
    * Display a listing of the resource.
    */
@@ -129,6 +135,20 @@ class PropertyController extends Controller
     $property->save();
     DB::commit();
 
+    $this->notification->send(
+      user: $property->owner->user,
+      title: 'New Rental Request',
+      message: "New rental request for {$property->name} from {$tenant->user->name}",
+      type: 'info'
+    );
+
+    $this->notification->send(
+      user: $tenant->user,
+      title: 'Rental Request Submitted',
+      message: "Your rental request for {$property->name} has been submitted successfully",
+      type: 'success'
+    );
+
     return redirect()
       ->route('tenants.applications')
       ->with('success', 'Rental request submitted successfully');
@@ -163,6 +183,20 @@ class PropertyController extends Controller
     $property->increment('capacity');
     $property->save();
     DB::commit();
+
+    $this->notification->send(
+      user: $property->owner->user,
+      title: 'Rental Request Cancelled',
+      message: "Rental request for {$property->name} has been cancelled by {$tenant->user->name}",
+      type: 'warning'
+    );
+
+    $this->notification->send(
+      user: $tenant->user,
+      title: 'Rental Request Cancelled',
+      message: "Your rental request for {$property->name} has been cancelled successfully",
+      type: 'info'
+    );
 
     return redirect()->back()->with('success', 'Rental request cancelled');
   }

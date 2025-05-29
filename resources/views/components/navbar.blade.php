@@ -43,8 +43,8 @@
           'show' => Auth::user()->role == RoleType::OWNER,
       ],
       [
-          'href' => route('activity'),
-          'active' => request()->routeIs('activity'),
+          'href' => route('notifications.index'),
+          'active' => request()->routeIs('notifications.index'),
           'label' => 'Activity',
           'icon' => asset('icons/activity.svg'),
           'color' => asset('icons/active/activity.svg'),

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Owners\OwnerController;
@@ -15,8 +16,18 @@ Route::middleware('auth')
   ->controller(AppController::class)
   ->group(function () {
     Route::get('/dashboard', 'dashboard')->name('dashboard');
-    Route::get('/activity', 'activity')->name('activity');
     Route::get('/profile', 'profile')->name('profile');
+
+    Route::controller(NotificationController::class)
+      ->prefix('notifications')
+      ->as('notifications.')
+      ->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::put('/read', 'read')->name('read');
+        Route::put('/read/all', 'all')->name('all');
+        Route::delete('/remove/all', 'purge')->name('purge');
+        Route::delete('/remove/{notification}', 'destroy')->name('destroy');
+      });
   });
 
 Route::middleware('auth', 'role:owner')

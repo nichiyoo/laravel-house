@@ -101,18 +101,20 @@
                   'label' => 'Location',
                   'route' => route('tenants.properties.location', $property),
                   'icon' => 'map',
+                  'variant' => 'secondary',
               ],
               [
                   'label' => 'Rent',
                   'route' => route('tenants.properties.rent', $property),
                   'icon' => 'shopping-bag',
+                  'variant' => 'primary',
               ],
           ])->map(fn($action) => (object) $action);
         @endphp
 
         @foreach ($actions as $action)
           <a href="{{ $action->route }}">
-            <x-button variant="secondary">
+            <x-button variant="{{ $action->variant }}">
               <i data-lucide="{{ $action->icon }}" class="size-5"></i>
               <span>{{ $action->label }}</span>
             </x-button>

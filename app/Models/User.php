@@ -5,10 +5,11 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Enums\RoleType;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -96,5 +97,13 @@ class User extends Authenticatable
   {
     $default = 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=e1e1e1&size=64&font-size=0.33';
     return $this->avatar ?? $default;
+  }
+
+  /**
+   * get user notifications
+   */
+  public function notifications(): HasMany
+  {
+    return $this->hasMany(Notification::class);
   }
 }
