@@ -35,11 +35,9 @@
     </div>
   </div>
 
-  <div class="grid gap-2 p-6">
-    <div>
-      <h3 class="font-medium">{{ $property->name }}</h3>
-      <p class="text-sm truncate text-base-500">{{ $property->address }}</p>
-    </div>
+  <div class="grid gap-1 p-6">
+    <h3 class="font-medium">{{ $property->name }}</h3>
+    <p class="text-sm truncate text-base-500">{{ $property->address }}</p>
     <span class="text-primary-500">Rp {{ number_format($property->price) }}/month</span>
   </div>
 

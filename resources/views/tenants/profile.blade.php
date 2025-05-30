@@ -7,7 +7,9 @@
 
     <section class="grid items-center min-h-56">
       <div class="flex flex-col items-center gap-4">
-        <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="w-32 h-32 rounded-full" />
+        <div class="size-40 border border-base-300 rounded-full p-4">
+          <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-full" />
+        </div>
         <div class="flex flex-col text-center">
           <span class="text-2xl font-semibold">{{ Auth::user()->name }}</span>
           <span class="text-sm text-base-500">{{ Auth::user()->email }}</span>
@@ -25,6 +27,11 @@
                   'icon' => 'user-round',
               ],
               [
+                  'href' => route('notifications.index'),
+                  'label' => 'Notifications',
+                  'icon' => 'bell',
+              ],
+              [
                   'href' => route('tenants.applications'),
                   'label' => 'Applications',
                   'icon' => 'shopping-bag',
@@ -39,18 +46,13 @@
                   'label' => 'Help',
                   'icon' => 'life-buoy',
               ],
-              [
-                  'href' => '#',
-                  'label' => 'Settings',
-                  'icon' => 'bolt',
-              ],
           ])->map(fn($item) => (object) $item);
         @endphp
 
         @foreach ($navigations as $navigation)
           <li>
             <a href="{{ $navigation->href }}" class="flex items-center gap-4 py-4">
-              <i data-lucide="{{ $navigation->icon }}" class="size-5"></i>
+              <i data-lucide="{{ $navigation->icon }}" class="text-primary-500 size-5"></i>
               <span>{{ $navigation->label }}</span>
             </a>
           </li>

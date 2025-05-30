@@ -34,7 +34,7 @@ class NotificationPolicy
   /**
    * Determine whether the user can delete the model.
    */
-  public function destroy(User $user, Notification $notification): bool
+  public function delete(User $user, Notification $notification): bool
   {
     return $notification->user->is($user);
   }
