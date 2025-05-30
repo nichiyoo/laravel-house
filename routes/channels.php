@@ -4,11 +4,11 @@ use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-  return (int) $user->id === (int) $id;
-});
-
-Broadcast::channel('chat.{id}', function (User $user, int $id) {
-  $chat = Chat::find($id);
-  return $chat && ($chat->sender_id === $user->id || $chat->receiver_id === $user->id);
+Broadcast::channel('chat.{id}', function (User $user, $id) {
+  return  Chat::where('id', (int) $id)
+    ->where(function ($query) use ($user) {
+      $query->where('sender_id', $user->id)
+        ->orWhere('receiver_id', $user->id);
+    })
+    ->exists();
 });

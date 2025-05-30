@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <div class="mobile h-screen overflow-hidden relative">
+  <div class="relative h-screen overflow-hidden mobile">
     <x-status variant="success" status="{{ session('success') }}" />
     <x-status variant="error" status="{{ session('error') }}" />
 
@@ -24,9 +24,9 @@
       <div class="absolute inset-0 bg-gradient-to-t from-base-950 to-transparent"></div>
     </div>
 
-    <main class="h-content overflow-y-auto relative">
+    <main class="relative overflow-y-auto h-content">
       <div class="grid gap-6">
-        <div class="p-side pb-16 flex flex-col justify-between aspect-square text-base-50">
+        <div class="flex flex-col justify-between pb-16 p-side aspect-square text-base-50">
           <div class="flex items-center justify-between gap-2">
             <a href="{{ route('tenants.properties.index') }}">
               <x-button size="icon">
@@ -44,13 +44,22 @@
             </form>
           </div>
 
-          <x-profile :user="$property->owner->user" />
+          <div class="flex items-center justify-between">
+            <x-profile :user="$property->owner->user" />
+
+            <a href="{{ route('chats.show', $property->owner->user) }}">
+              <x-button size="icon" variant="secondary">
+                <i data-lucide="message-circle" class="size-5"></i>
+                <span class="sr-only">Chat</span>
+              </x-button>
+            </a>
+          </div>
         </div>
 
-        <section class="grid bg-base-50 rounded-t-3xl -mt-16">
+        <section class="grid -mt-16 bg-base-50 rounded-t-3xl">
           <div class="flex flex-col py-6 overflow-hidden p-side">
             <span class="text-sm text-base-400">Detail</span>
-            <h2 class="truncate text-2xl font-semibold">
+            <h2 class="text-2xl font-semibold truncate">
               {{ $property->name }}
             </h2>
 
@@ -94,8 +103,8 @@
       </div>
     </main>
 
-    <nav class="h-navbar border-t bg-base-50">
-      <div class="grid gap-4 grid-cols-2 p-4">
+    <nav class="border-t h-navbar bg-base-50">
+      <div class="grid grid-cols-2 gap-4 p-4">
         @php
           $actions = collect([
               [

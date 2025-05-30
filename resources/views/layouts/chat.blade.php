@@ -15,12 +15,12 @@
 </head>
 
 <body>
-  <div class="mobile h-screen overflow-hidden relative">
-    <main class="h-content overflow-y-auto" id="container">
+  <div class="relative h-screen overflow-hidden mobile">
+    <main class="overflow-y-auto h-content" id="container">
       {{ $slot }}
     </main>
 
-    <nav class="h-navbar border-t bg-base-50 z-10 relative grid gap-2">
+    <nav class="relative z-10 grid gap-2 border-t h-navbar bg-base-50">
       {{ $action }}
     </nav>
   </div>

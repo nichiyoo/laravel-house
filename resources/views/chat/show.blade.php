@@ -1,13 +1,15 @@
 <x-chat-layout>
-  <div class="grid gap-6 p-side">
+  <div class="absolute top-0 flex items-center w-full border-b h-navbar px-side bg-base-50">
     <x-title>
       <x-slot:section>Messages</x-slot>
       <x-slot:heading>Chat with
-        {{ $chat->sender_id === Auth::id() ? $chat->receiver->name : $chat->sender->name }}
+        {{ $chat->sender_id === Auth::user()->id ? $chat->receiver->name : $chat->sender->name }}
       </x-slot>
     </x-title>
+  </div>
 
-    <div class="grid gap-4" id="messages">
+  <div class="grid gap-6 pt-28 p-side">
+    <div id="messages" class="grid gap-4">
       @foreach ($messages as $message)
         <x-message :mine="$message->user_id === Auth::user()->id">
           <x-slot:content>{{ $message->content }}</x-slot:content>
@@ -60,7 +62,8 @@
               this.sendMessage(content);
             });
 
-            window.Echo.private('chat.' + this.config.id).listen('.message.sent', (e) => {
+            window.Echo.private('chat.{{ $chat->id }}').listen('.message.sent', (e) => {
+              console.log('test');
               this.addMessage(e.message);
             });
           },
@@ -82,7 +85,7 @@
           createMessageHtml(message) {
             const own = message.user.id === this.config.user;
             return `
-              <div class="flex group w-full" data-align="${own ? 'right' : 'left'}">
+              <div class="flex w-full group" data-align="${own ? 'right' : 'left'}">
                 <div class="flex flex-col border min-w-40 max-w-sm rounded-2xl p-3 bg-base-50 group-data-[align=right]:ml-auto group-data-[align=left]:rounded-bl-none group-data-[align=right]:rounded-br-none">
                   <p class="text-sm">${message.content}</p>
                   <p class="text-xs text-base-400">${this.formatDate(message.created_at)}</p>
@@ -98,7 +101,7 @@
 
           async sendMessage(content) {
             try {
-              const result = await axios.post('/chats/' + this.config.id + '/send', {
+              const result = await axios.post('/chats/{{ $chat->id }}' + '/send', {
                 content
               });
               this.addMessage(result.data.message);

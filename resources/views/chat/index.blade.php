@@ -3,6 +3,14 @@
     <x-title>
       <x-slot:section>Messages</x-slot>
       <x-slot:heading>Chat History</x-slot>
+      <x-slot:actions>
+        <a href="{{ route('notifications.index') }}">
+          <x-button size="icon">
+            <i data-lucide="bell" class="size-5"></i>
+            <span class="sr-only">notification</span>
+          </x-button>
+        </a>
+      </x-slot:actions>
     </x-title>
 
     <div class="grid gap-4">
@@ -13,9 +21,9 @@
         @endphp
 
         <a href="{{ route('chats.show', $target) }}">
-          <div class="card p-4 relative">
+          <div class="relative p-4 card">
             <div class="flex items-start gap-3">
-              <img src="{{ $target->avatar }}" alt="{{ $target->name }}" class="size-12 rounded-full" />
+              <img src="{{ $target->avatar }}" alt="{{ $target->name }}" class="rounded-full size-12" />
 
               <div class="text-sm">
                 <div class="font-medium">{{ $target->name }}</div>
@@ -28,7 +36,7 @@
 
             @if ($chat->messages()->where('user_id', '!=', Auth::id())->where('read', false)->exists())
               <div class="absolute top-0 right-0">
-                <div class="size-3 animate-ping rounded-full bg-primary-500"></div>
+                <div class="rounded-full size-3 animate-ping bg-primary-500"></div>
               </div>
             @endif
           </div>
