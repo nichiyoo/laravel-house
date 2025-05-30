@@ -20,7 +20,7 @@ class TenantController extends Controller
    */
   public function dashboard()
   {
-    $properties = Property::with('owner')
+    $properties = Property::with('owner')->verified()
       ->where('capacity', '>', 0)
       ->get();
 

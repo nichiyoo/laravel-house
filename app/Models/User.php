@@ -67,7 +67,7 @@ class User extends Authenticatable
    */
   protected function avatar(): Attribute
   {
-    $default = 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=e1e1e1&size=64&font-size=0.33';
+    $default = 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=e1e1e1&size=256&font-size=0.33';
     return Attribute::make(
       get: fn() => $this->attributes['avatar'] ?? $default
     );

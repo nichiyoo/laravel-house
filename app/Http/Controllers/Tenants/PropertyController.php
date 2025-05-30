@@ -3,23 +3,38 @@
 namespace App\Http\Controllers\Tenants;
 
 use App\Enums\MethodType;
+use App\Enums\RoleType;
 use App\Enums\StatusType;
+use App\Enums\VerificationType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRentRequest;
 use App\Models\Property;
+use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class PropertyController extends Controller
 {
   public function __construct(private NotificationService $notification)
   {
-    // 
+    Gate::define('check', function (User $user, Property $property) {
+      return $property->verification == VerificationType::VERIFIED;
+    });
+  }
+
+  /**
+   * Function to authorize the property.
+   */
+  private function check(Property $property): void
+  {
+    $deny = Gate::denies('check', $property);
+    if ($deny) abort(404, 'Property not found');
   }
 
   /**
@@ -34,7 +49,7 @@ class PropertyController extends Controller
     $distance = $request->get('distance');
     $interval = $request->get('interval');
 
-    $properties = Property::with('owner')
+    $properties = Property::with('owner')->verified()
       ->when($keyword, function ($query) use ($keyword) {
         return $query->where(function ($q) use ($keyword) {
           $q->where('name', 'like', '%' . $keyword . '%')
@@ -69,6 +84,8 @@ class PropertyController extends Controller
    */
   public function show(Property $property): View
   {
+    $this->check($property);
+
     return view('tenants.properties.show', [
       'property' => $property->load('owner'),
     ]);
@@ -79,6 +96,8 @@ class PropertyController extends Controller
    */
   public function reviews(Property $property): View
   {
+    $this->check($property);
+
     return view('tenants.properties.reviews', [
       'property' => $property->load('owner'),
       'reviews' => $property->tenants()->with('user')
@@ -92,6 +111,8 @@ class PropertyController extends Controller
    */
   public function location(Property $property): View
   {
+    $this->check($property);
+
     return view('tenants.properties.location', [
       'property' => $property->load('owner'),
     ]);
@@ -102,6 +123,8 @@ class PropertyController extends Controller
    */
   public function bookmark(Property $property): RedirectResponse
   {
+    $this->check($property);
+
     $tenant = Auth::user()->tenant;
     $tenant->bookmarks()->toggle($property);
     $bookmarked = $tenant->bookmarks->contains($property);
@@ -115,6 +138,8 @@ class PropertyController extends Controller
    */
   public function rent(Property $property): View
   {
+    $this->check($property);
+
     return view('tenants.properties.rent', [
       'property' => $property->load('owner'),
       'methods' => MethodType::cases(),
@@ -127,6 +152,8 @@ class PropertyController extends Controller
    */
   public function store(StoreRentRequest $request, Property $property): RedirectResponse
   {
+    $this->check($property);
+
     $validated = $request->validated();
     $tenant = Auth::user()->tenant;
 
@@ -164,8 +191,9 @@ class PropertyController extends Controller
    */
   public function cancel(Property $property, Request $request): RedirectResponse
   {
-    $id = $request->get('id');
+    $this->check($property);
 
+    $id = $request->get('id');
     $tenant = Auth::user()->tenant;
     $rented = $tenant->rented()
       ->where('property_id', $property->id)
@@ -211,6 +239,8 @@ class PropertyController extends Controller
    */
   public function review(Property $property): RedirectResponse|View
   {
+    $this->check($property);
+
     $tenant = Auth::user()->tenant;
     $rented = $tenant->rented()
       ->where('property_id', $property->id)
@@ -238,6 +268,8 @@ class PropertyController extends Controller
    */
   public function update(HttpRequest $request, Property $property): RedirectResponse
   {
+    $this->check($property);
+
     $id = $request->get('id');
     $tenant = Auth::user()->tenant;
     $rented = $tenant->rented()

@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\IntervalType;
+use App\Enums\VerificationType;
 use App\Models\Owner;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,8 +15,9 @@ return new class extends Migration
   public function up(): void
   {
     $intervals = array_map(fn(IntervalType $interval) => $interval->value, IntervalType::cases());
+    $verifications = array_map(fn(VerificationType $verification) => $verification->value, VerificationType::cases());
 
-    Schema::create('properties', function (Blueprint $table) use ($intervals) {
+    Schema::create('properties', function (Blueprint $table) use ($intervals, $verifications) {
       $table->id();
       $table->timestamps();
       $table->foreignIdFor(Owner::class)->constrained()->cascadeOnDelete();
@@ -27,6 +29,7 @@ return new class extends Migration
       $table->integer('price')->default(0);
       $table->integer('capacity')->default(0);
       $table->enum('interval', $intervals)->default(IntervalType::MONTHLY->value);
+      $table->enum('verification', $verifications)->default(VerificationType::UNVERIFIED->value);
       $table->text('description');
       $table->decimal('latitude', 10, 6);
       $table->decimal('longitude', 10, 6);

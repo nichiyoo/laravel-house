@@ -30,7 +30,12 @@
           <x-badge variant="secondary">
             <span>{{ round($property->distance, 1) }} Km</span>
           </x-badge>
+        @else
+          <x-badge variant="secondary">
+            <span>{{ $property->verification->label() }}</span>
+          </x-badge>
         @endtenant
+
       </div>
     </div>
   </div>

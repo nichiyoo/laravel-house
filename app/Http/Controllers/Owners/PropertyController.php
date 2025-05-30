@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePropertyRequest;
 use App\Http\Requests\UpdatePropertyRequest;
+use App\Models\User;
 use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -91,6 +92,12 @@ class PropertyController extends Controller
     $property->storeImage($request, 'backdrop');
     $property->storeImages($request, 'images');
     $property->save();
+
+    $this->notification->broadcast(
+      User::role('admin')->get(),
+      'New property created',
+      'A new property has been created by ' . $owner->user->name,
+    );
 
     return redirect()->route('owners.properties.index')
       ->with('success', 'property created successfully');

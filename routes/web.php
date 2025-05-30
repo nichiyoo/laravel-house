@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admins\AdminController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
+// use App\Http\Controllers\Admins\AdminController;
 use App\Http\Controllers\Owners\OwnerController;
-use App\Http\Controllers\Owners\PropertyController as OwnerPropertyController;
-
 use App\Http\Controllers\Tenants\TenantController;
+
+use App\Http\Controllers\Admins\PropertyController as AdminPropertyController;
+use App\Http\Controllers\Owners\PropertyController as OwnerPropertyController;
 use App\Http\Controllers\Tenants\PropertyController as TenantPropertyController;
 
 Route::get('', fn() => view('welcome'))->middleware('guest')->name('home');
@@ -95,12 +98,32 @@ Route::middleware('auth', 'role:tenant')
         Route::get('{property}/reviews', 'reviews')->name('reviews');
         Route::get('{property}/location', 'location')->name('location');
         Route::post('{property}/bookmark', 'bookmark')->name('bookmark');
-
         Route::put('{property}/reviews', 'update')->name('update');
         Route::get('{property}/reviews/create', 'review')->name('review.create');
       });
 
     Route::resource('properties', TenantPropertyController::class)->only('index', 'show');
+  });
+
+Route::middleware('auth', 'role:admin')
+  ->prefix('admins')
+  ->name('admins.')
+  ->group(function () {
+    Route::controller(AdminController::class)
+      ->group(function () {
+        Route::get('dashboard', 'dashboard')->name('dashboard');
+      });
+
+    Route::controller(AdminPropertyController::class)
+      ->prefix('properties')
+      ->as('properties.')
+      ->group(function () {
+        Route::get('unverified', 'unverified')->name('unverified');
+        Route::get('{property}/location', 'location')->name('location');
+        Route::post('{property}/approve', 'approve')->name('approve');
+      });
+
+    Route::resource('properties', AdminPropertyController::class)->only('show');
   });
 
 require __DIR__ . '/auth.php';

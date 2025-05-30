@@ -24,7 +24,7 @@
             <span class="sr-only">Search</span>
           </button>
         @else
-          <a href="{{ route('tenants.properties.index') }}">
+          <a href="{{ $action }}">
             <i data-lucide="x"></i>
             <span class="sr-only">Reset</span>
           </a>

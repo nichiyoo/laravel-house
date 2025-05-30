@@ -61,7 +61,7 @@
         <li>
           <form method="POST" action="{{ route('auth.logout') }}">
             @csrf
-            <button type="submit" class="flex items-center gap-4 py-4 text-red-500">
+            <button class="flex items-center gap-4 py-4 text-red-500">
               <i data-lucide="log-out" class="size-5"></i>
               <span>Logout</span>
             </button>

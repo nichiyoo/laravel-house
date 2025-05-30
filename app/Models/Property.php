@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Helpers\Distance;
 use App\Enums\AmenityType;
 use App\Enums\IntervalType;
+use App\Enums\VerificationType;
 use App\Traits\HasImageUpload;
 use App\Traits\HasMultipleImageUpload;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,6 +42,7 @@ class Property extends Model
     'backdrop',
     'images',
     'amenities',
+    'verification',
   ];
 
   /**
@@ -54,6 +57,7 @@ class Property extends Model
       'latitude' => 'decimal:6',
       'longitude' => 'decimal:6',
       'interval' => IntervalType::class,
+      'verification' => VerificationType::class,
       'amenities' => AsEnumCollection::of(AmenityType::class),
     ];
   }
@@ -67,6 +71,22 @@ class Property extends Model
     return Attribute::make(
       get: fn() => $this->attributes['backdrop'] ?? $default
     );
+  }
+
+  /**
+   * Scope a query to only include verified properties.
+   */
+  public function scopeVerified(Builder $query): Builder
+  {
+    return $query->where('verification', VerificationType::VERIFIED);
+  }
+
+  /**
+   * Scope a query to only include unverified properties.
+   */
+  public function scopeUnverified(Builder $query): Builder
+  {
+    return $query->where('verification', VerificationType::UNVERIFIED);
   }
 
   /**

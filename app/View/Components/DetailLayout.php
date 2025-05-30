@@ -30,6 +30,7 @@ class DetailLayout extends Component
     return match ($user->role) {
       RoleType::OWNER => view('layouts.owners.detail'),
       RoleType::TENANT => view('layouts.tenants.detail'),
+      RoleType::ADMIN => view('layouts.admins.detail'),
     };
   }
 }

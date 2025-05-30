@@ -43,6 +43,14 @@
           'show' => Auth::user()->role == RoleType::OWNER,
       ],
       [
+          'href' => route('admins.properties.unverified'),
+          'active' => request()->routeIs('admins.properties.unverified'),
+          'label' => 'Manage',
+          'icon' => asset('icons/manage.svg'),
+          'color' => asset('icons/active/manage.svg'),
+          'show' => Auth::user()->role == RoleType::ADMIN,
+      ],
+      [
           'href' => route('notifications.index'),
           'active' => request()->routeIs('notifications.index'),
           'label' => 'Activity',
