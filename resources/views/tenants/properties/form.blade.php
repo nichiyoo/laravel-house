@@ -71,7 +71,7 @@
 
   <div class="col-span-full">
     <x-label for="terms" value="Rental Terms" />
-    <div class="text-sm text-zinc-600">
+    <div class="text-sm text-base-600">
       <p>By submitting this form, you agree to the following terms:</p>
 
       <ul class="pl-5 list-disc list-inside">
@@ -84,7 +84,7 @@
 
     <div class="flex items-start gap-2 mt-4">
       <input type="checkbox" id="agree_terms" name="agree_terms"
-        class="mt-1 rounded shadow-sm border-zinc-300 text-primary-500 focus:border-primary-500 focus:ring-primary-500"
+        class="mt-1 rounded shadow-sm border-base-300 text-primary-500 focus:border-primary-500 focus:ring-primary-500"
         required>
       <label for="agree_terms" class="text-sm">I agree to the rental terms and conditions</label>
     </div>

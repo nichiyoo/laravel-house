@@ -19,6 +19,14 @@
           'show' => Auth::user()->role == RoleType::TENANT,
       ],
       [
+          'label' => 'Report',
+          'href' => route('admins.reports.index'),
+          'active' => request()->routeIs('admins.reports.index'),
+          'icon' => asset('icons/post.svg'),
+          'color' => asset('icons/active/post.svg'),
+          'show' => Auth::user()->role == RoleType::ADMIN,
+      ],
+      [
           'href' => route('tenants.properties.index'),
           'active' => request()->routeIs('tenants.properties.index'),
           'label' => 'Search',

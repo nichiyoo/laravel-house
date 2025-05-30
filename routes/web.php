@@ -10,6 +10,7 @@ use App\Http\Controllers\Owners\OwnerController;
 use App\Http\Controllers\Tenants\TenantController;
 
 use App\Http\Controllers\Admins\PropertyController as AdminPropertyController;
+use App\Http\Controllers\Admins\ReportController;
 use App\Http\Controllers\Owners\PropertyController as OwnerPropertyController;
 use App\Http\Controllers\Tenants\PropertyController as TenantPropertyController;
 
@@ -125,6 +126,7 @@ Route::middleware('auth', 'role:admin')
       });
 
     Route::resource('properties', AdminPropertyController::class)->only('show');
+    Route::resource('reports', ReportController::class);
   });
 
 require __DIR__ . '/auth.php';
