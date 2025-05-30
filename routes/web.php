@@ -112,6 +112,7 @@ Route::middleware('auth', 'role:admin')
     Route::controller(AdminController::class)
       ->group(function () {
         Route::get('dashboard', 'dashboard')->name('dashboard');
+        Route::get('profile', 'profile')->name('profile');
       });
 
     Route::controller(AdminPropertyController::class)

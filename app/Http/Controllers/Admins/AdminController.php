@@ -26,4 +26,12 @@ class AdminController extends Controller
       'latest' => $latest,
     ]);
   }
+
+  /**
+   * Display the admin profile.
+   */
+  public function profile(): View
+  {
+    return view('admins.profile');
+  }
 }

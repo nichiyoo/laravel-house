@@ -60,6 +60,8 @@ class AppController extends Controller
         return redirect()->route('tenants.profile');
 
       case RoleType::ADMIN:
+        return redirect()->route('admins.profile');
+
       default:
         return redirect()->route('home');
     }
