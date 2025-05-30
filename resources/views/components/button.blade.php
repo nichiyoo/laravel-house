@@ -17,7 +17,7 @@
       ])
       ->merge([
           'type' => $type,
-          'class' => 'w-full justify-center border rounded-xl text-sm font-medium focus:outline-none',
+          'class' => 'flex-none w-full justify-center border rounded-xl text-sm font-medium focus:outline-none',
       ]);
 @endphp
 

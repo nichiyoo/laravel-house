@@ -22,7 +22,7 @@ class PropertyController extends Controller
    */
   public function unverified(): View
   {
-    $keyword     = request()->get('query');
+    $keyword = request()->get('query');
 
     $properties = Property::unverified()
       ->with('owner')

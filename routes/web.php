@@ -13,6 +13,7 @@ use App\Http\Controllers\Admins\PropertyController as AdminPropertyController;
 use App\Http\Controllers\Admins\ReportController;
 use App\Http\Controllers\Owners\PropertyController as OwnerPropertyController;
 use App\Http\Controllers\Tenants\PropertyController as TenantPropertyController;
+use App\Http\Controllers\ChatController;
 
 Route::get('', fn() => view('welcome'))->middleware('guest')->name('home');
 
@@ -32,6 +33,16 @@ Route::middleware('auth')
         Route::put('read/all', 'all')->name('all');
         Route::delete('remove/all', 'purge')->name('purge');
         Route::delete('remove/{notification}', 'destroy')->name('destroy');
+      });
+
+    Route::controller(ChatController::class)
+      ->prefix('chats')
+      ->as('chats.')
+      ->group(function () {
+        Route::get('', 'index')->name('index');
+        Route::get('{target}', 'show')->name('show');
+        Route::get('unread', 'unread')->name('unread');
+        Route::post('{chat}/send', 'send')->name('send');
       });
   });
 

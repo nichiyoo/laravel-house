@@ -24,14 +24,6 @@ class UserSeeder extends Seeder
       ])->id,
     ]);
 
-    Admin::create([
-      'user_id' => User::factory()->create([
-        'name' => 'Admin',
-        'email' => 'admin@example.com',
-        'role' => RoleType::ADMIN,
-      ])->id,
-    ]);
-
     Tenant::create([
       'completed' => true,
       'address' => 'Jl. Raya Kedungjaya No. 123, Kedungjaya, Jepara, Indonesia',
@@ -41,6 +33,14 @@ class UserSeeder extends Seeder
         'name' => 'Tenant',
         'email' => 'tenant@example.com',
         'role' => RoleType::TENANT,
+      ])->id,
+    ]);
+
+    Admin::create([
+      'user_id' => User::factory()->create([
+        'name' => 'Admin',
+        'email' => 'admin@example.com',
+        'role' => RoleType::ADMIN,
       ])->id,
     ]);
   }

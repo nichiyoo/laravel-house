@@ -59,3 +59,27 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Real-time Chat with Laravel Reverb
+
+To enable real-time chat functionality, you need to:
+
+1. Install Laravel Reverb:
+```bash
+composer require laravel/reverb
+```
+
+2. Configure your `.env` file:
+```env
+BROADCAST_DRIVER=reverb
+REVERB_APP_ID=your_app_id
+REVERB_APP_KEY=your_app_key
+REVERB_APP_SECRET=your_app_secret
+```
+
+3. Start the Reverb server:
+```bash
+php artisan reverb:start
+```
+
+The chat system will now work in real-time with messages being delivered instantly to users.
