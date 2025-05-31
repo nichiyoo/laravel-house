@@ -14,7 +14,8 @@
     </x-title>
 
     @forelse ($notifications as $notification)
-      <div class="card" x-data="{ hover: false }" x-on:mouseenter="hover = true" x-on:mouseleave="hover = false">
+      <a href="{{ $notification->action }}" class="card" x-data="{ hover: false }" x-on:mouseenter="hover = true"
+        x-on:mouseleave="hover = false">
         <div class="flex items-start gap-4 p-6 text-sm">
           <form action="{{ route('notifications.destroy', $notification->id) }}" method="POST">
             @csrf
@@ -46,7 +47,7 @@
             <p>{{ $notification->created_at->diffForHumans() }}</p>
           </div>
         </div>
-      </div>
+      </a>
     @empty
       <x-empty />
     @endforelse

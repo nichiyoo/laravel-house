@@ -1,3 +1,7 @@
+@php
+  use App\Enums\VerificationType;
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -90,7 +94,7 @@
                   'route' => route('admins.properties.unverified'),
                   'icon' => 'arrow-left',
                   'variant' => 'secondary',
-                  'show' => true,
+                  'show' => $property->verification === VerificationType::VERIFIED,
               ],
               [
                   'label' => 'Location',
@@ -101,6 +105,16 @@
               ],
           ])->map(fn($action) => (object) $action);
         @endphp
+
+        @if ($property->verification === VerificationType::UNVERIFIED)
+          <form action="{{ route('admins.properties.approve', $property) }}" method="POST">
+            @csrf
+            <x-button type="submit" variant="success">
+              <i data-lucide="check" class="size-5"></i>
+              <span>Approve</span>
+            </x-button>
+          </form>
+        @endif
 
         @foreach ($actions as $action)
           @continue(!$action->show)

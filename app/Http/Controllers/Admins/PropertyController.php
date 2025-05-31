@@ -73,9 +73,10 @@ class PropertyController extends Controller
     ]);
 
     $this->notification->send(
-      $property->owner->user,
-      'Property approved',
-      'Your property has been approved by the admin',
+      user: $property->owner->user,
+      title: 'Property approved',
+      message: 'Your property ' . $property->name . ' has been approved by the admin',
+      action: route('owners.properties.show', $property),
     );
 
     return redirect()->back()

@@ -98,11 +98,11 @@ class PropertyController extends Controller
       $property->storeImages($request, 'images');
       $property->save();
 
-      $admins = User::where('role', RoleType::ADMIN)->get();
       $this->notification->broadcast(
-        $admins,
-        'New property created',
-        'A new property has been created by ' . $owner->user->name,
+        users: User::where('role', RoleType::ADMIN)->get(),
+        title: 'New property created',
+        message: 'A new property has been created by ' . $owner->user->name,
+        action: route('admins.properties.show', $property),
       );
 
       DB::commit();
@@ -168,6 +168,12 @@ class PropertyController extends Controller
     $property->delete();
     $property->deleteImage('backdrop');
     $property->deleteImages('images');
+
+    $this->notification->broadcast(
+      users: User::where('role', RoleType::ADMIN)->get(),
+      title: 'Property deleted',
+      message: 'Property ' . $property->name . ' has been deleted by ' . $property->owner->user->name,
+    );
 
     return redirect()->route('owners.properties.index')
       ->with('success', 'property deleted successfully');
@@ -235,9 +241,10 @@ class PropertyController extends Controller
     ]);
 
     $this->notification->send(
-      $rental->user,
-      'Your application has been approved',
-      'Your application has been approved for ' . $property->name,
+      user: $rental->user,
+      title: 'Your application has been approved',
+      message: 'Your application for ' . $property->name . ' has been approved',
+      action: route('tenants.applications', $property),
     );
 
     return redirect()->route('owners.properties.applications', $property)
@@ -269,9 +276,10 @@ class PropertyController extends Controller
     ]);
 
     $this->notification->send(
-      $rental->user,
-      'Your application has been rejected',
-      'Your application has been rejected for ' . $property->name,
+      user: $rental->user,
+      title: 'Your application has been rejected',
+      message: 'Your application for ' . $property->name . ' has been rejected',
+      action: route('tenants.applications', $property),
     );
 
     return redirect()->route('owners.properties.applications', $property)

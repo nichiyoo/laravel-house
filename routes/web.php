@@ -5,7 +5,6 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
-// use App\Http\Controllers\Admins\AdminController;
 use App\Http\Controllers\Owners\OwnerController;
 use App\Http\Controllers\Tenants\TenantController;
 

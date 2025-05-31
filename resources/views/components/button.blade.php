@@ -14,6 +14,7 @@
           'border-transparent bg-primary-500 text-base-50 both:bg-primary-600' => $variant === 'primary',
           'border-transparent bg-base-200 text-base-900 both:bg-base-300' => $variant === 'secondary',
           'border-transparent bg-red-500 text-base-50 both:bg-red-600' => $variant === 'destructive',
+          'border-transparent bg-green-500 text-base-50 both:bg-green-600' => $variant === 'success',
       ])
       ->merge([
           'type' => $type,

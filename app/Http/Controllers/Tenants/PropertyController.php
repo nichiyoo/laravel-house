@@ -171,14 +171,14 @@ class PropertyController extends Controller
       user: $property->owner->user,
       title: 'New Rental Request',
       message: "New rental request for {$property->name} from {$tenant->user->name}",
-      type: 'info'
+      action: route('owners.properties.applications', $property),
     );
 
     $this->notification->send(
       user: $tenant->user,
       title: 'Rental Request Submitted',
       message: "Your rental request for {$property->name} has been submitted successfully",
-      type: 'success'
+      action: route('tenants.applications', $property),
     );
 
     return redirect()
@@ -221,14 +221,14 @@ class PropertyController extends Controller
       user: $property->owner->user,
       title: 'Rental Request Cancelled',
       message: "Rental request for {$property->name} has been cancelled by {$tenant->user->name}",
-      type: 'warning'
+      action: route('owners.properties.applications', $property),
     );
 
     $this->notification->send(
       user: $tenant->user,
       title: 'Rental Request Cancelled',
       message: "Your rental request for {$property->name} has been cancelled successfully",
-      type: 'info'
+      action: route('tenants.applications', $property),
     );
 
     return redirect()->back()->with('success', 'Rental request cancelled');
@@ -297,6 +297,13 @@ class PropertyController extends Controller
     $rented->pivot->rating = $validated->rating;
     $rented->pivot->is_reviewed = true;
     $rented->pivot->save();
+
+    $this->notification->send(
+      user: $property->owner->user,
+      title: 'Review updated',
+      message: "Review for {$property->name} has been updated by {$tenant->user->name}",
+      action: route('owners.properties.reviews', $property),
+    );
 
     return redirect()->route('tenants.properties.reviews', $property)
       ->with('success', 'Review updated successfully');

@@ -23,7 +23,11 @@ class CompletedProfile
     if (!$user || $role !== RoleType::TENANT) abort(403);
 
     $tenant = $user->tenant;
-    if (!$tenant->completed) return redirect()->route('tenants.profile');
+    if (!$tenant->completed) {
+      return redirect()
+        ->route('tenants.profile')
+        ->with('error', 'Please complete your profile');
+    }
 
     return $next($request);
   }

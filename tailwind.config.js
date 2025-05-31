@@ -3,6 +3,7 @@ import typography from '@tailwindcss/typography'
 import forms from '@tailwindcss/forms'
 import colors from 'tailwindcss/colors'
 import animate from 'tailwindcss-animate'
+import plugin from 'tailwindcss/plugin'
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -38,6 +39,13 @@ export default {
       },
     },
   },
-  plugins: [typography, forms, animate],
+  plugins: [
+    typography,
+    forms,
+    animate,
+    plugin(({ addVariant }) => {
+      addVariant("both", ["&:focus", "&:hover"])
+    })
+  ],
 }
 

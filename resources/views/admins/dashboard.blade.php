@@ -5,6 +5,10 @@
         <x-slot:heading>{{ Auth::user()->name }}</x-slot>
       </x-title>
 
+      <section>
+        <x-search action="{{ route('admins.properties.unverified') }}" />
+      </section>
+
       <section class="grid grid-cols-2 gap-4">
         <h1 class="text-2xl font-semibold">
           Statistics

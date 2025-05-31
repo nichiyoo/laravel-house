@@ -11,23 +11,24 @@ class NotificationService
   /**
    * send notification to user
    */
-  public function send(User $user, string $title, string $message, string $type = 'info'): Notification
+  public function send(User $user, string $title, string $message, string $type = 'info', string $action = '#'): Notification
   {
     return Notification::create([
       'user_id' => $user->id,
       'title' => $title,
       'message' => $message,
-      'type' => $type
+      'type' => $type,
+      'action' => $action,
     ]);
   }
 
   /**
    * send notification to multiple users
    */
-  public function broadcast(Collection $users, string $title, string $message, string $type = 'info'): void
+  public function broadcast(Collection $users, string $title, string $message, string $type = 'info', string $action = '#'): void
   {
     foreach ($users as $user) {
-      $this->send($user, $title, $message, $type);
+      $this->send($user, $title, $message, $type, $action);
     }
   }
 }
