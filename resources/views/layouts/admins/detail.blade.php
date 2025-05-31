@@ -40,7 +40,25 @@
             </a>
           </div>
 
-          <x-profile :user="$property->owner->user" />
+          <div class="flex items-center justify-between">
+            <x-profile :user="$property->owner->user" />
+
+            <div class="flex gap-2 items-center">
+              <a href="{{ route('chats.show', $property->owner->user) }}">
+                <x-button size="icon" variant="secondary">
+                  <i data-lucide="message-circle" class="size-5"></i>
+                  <span class="sr-only">Chat</span>
+                </x-button>
+              </a>
+
+              <a href="{{ route('admins.properties.tour', $property) }}">
+                <x-button size="icon" variant="secondary">
+                  <i data-lucide="camera" class="size-5"></i>
+                  <span class="sr-only">Virtual Tour</span>
+                </x-button>
+              </a>
+            </div>
+          </div>
         </div>
 
         <section class="grid bg-base-50 rounded-t-3xl -mt-16">

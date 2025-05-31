@@ -15,11 +15,11 @@
 </head>
 
 <body>
-  <div class="relative h-screen overflow-hidden mobile">
+  <div class="h-screen overflow-hidden mobile">
     <x-status variant="success" status="{{ session('success') }}" />
     <x-status variant="error" status="{{ session('error') }}" />
 
-    <main class="h-content overflow-y-auto @if ($padding) p-side @endif">
+    <main class="relative h-content overflow-y-auto @if ($padding) p-side @endif">
       {{ $slot }}
     </main>
 

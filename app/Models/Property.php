@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Distance;
 use App\Enums\AmenityType;
 use App\Enums\IntervalType;
+use App\Enums\StatusType;
 use App\Enums\VerificationType;
 use App\Traits\HasImageUpload;
 use App\Traits\HasMultipleImageUpload;
@@ -139,7 +140,9 @@ class Property extends Model
   public function getBookmarkedAttribute(): bool
   {
     $tenant = Auth::user()->tenant;
-    return $this->bookmarks()->where('tenant_id', $tenant->id)->exists();
+    return $this->bookmarks()
+      ->where('tenant_id', $tenant->id)
+      ->exists();
   }
 
   /**

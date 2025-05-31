@@ -17,8 +17,19 @@
     @endtenant
   </div>
 
-  <div class="relative w-full aspect-video bg-base-100">
-    <img src="{{ $property->backdrop }}" alt="{{ $property->name }}" class="object-cover size-full" />
+  <div class="relative w-full aspect-video bg-base-100 ">
+    <img src="{{ $property->backdrop }}" alt="{{ $property->name }}" @class([
+        'object-cover size-full',
+        'grayscale' => $property->capacity === 0,
+    ]) />
+
+    @if ($property->capacity === 0)
+      <div class="absolute bottom-0 aspect-video items-end p-6">
+        <x-badge variant="destructive">
+          <span>Fully booked</span>
+        </x-badge>
+      </div>
+    @endif
 
     <div class="absolute inset-0 w-full p-6">
       <div class="flex items-center justify-between">

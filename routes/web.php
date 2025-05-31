@@ -68,6 +68,9 @@ Route::middleware('auth', 'role:owner')
       ->prefix('properties')
       ->as('properties.')
       ->group(function () {
+        Route::get('{property}/tour', 'tour')->name('tour');
+        Route::get('{property}/tour/{room}', 'room')->name('room');
+
         Route::get('{property}/reviews', 'reviews')->name('reviews');
         Route::get('{property}/location', 'location')->name('location');
         Route::get('{property}/applications', 'applications')->name('applications');
@@ -104,6 +107,9 @@ Route::middleware('auth', 'role:tenant', 'completed')
       ->prefix('properties')
       ->as('properties.')
       ->group(function () {
+        Route::get('{property}/tour', 'tour')->name('tour');
+        Route::get('{property}/tour/{room}', 'room')->name('room');
+
         Route::get('{property}/rent', 'rent')->name('rent');
         Route::post('{property}/rent', 'store')->name('store');
         Route::post('{property}/cancel', 'cancel')->name('cancel');
@@ -131,6 +137,9 @@ Route::middleware('auth', 'role:admin')
       ->prefix('properties')
       ->as('properties.')
       ->group(function () {
+        Route::get('{property}/tour', 'tour')->name('tour');
+        Route::get('{property}/tour/{room}', 'room')->name('room');
+
         Route::get('unverified', 'unverified')->name('unverified');
         Route::get('{property}/location', 'location')->name('location');
         Route::post('{property}/approve', 'approve')->name('approve');

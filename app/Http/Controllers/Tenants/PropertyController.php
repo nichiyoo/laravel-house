@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Tenants;
 
 use App\Enums\MethodType;
-use App\Enums\RoleType;
 use App\Enums\StatusType;
 use App\Enums\VerificationType;
 use App\Http\Controllers\Controller;
@@ -24,7 +23,7 @@ class PropertyController extends Controller
   public function __construct(private NotificationService $notification)
   {
     Gate::define('check', function (User $user, Property $property) {
-      return $property->verification == VerificationType::VERIFIED;
+      return $property->verification === VerificationType::VERIFIED;
     });
   }
 
@@ -134,11 +133,48 @@ class PropertyController extends Controller
   }
 
   /**
-   * Display the rent form of the specified resource.
+   * Display the virtual tour of the specified resource.
    */
-  public function rent(Property $property): View
+  public function tour(Property $property): RedirectResponse
   {
     $this->check($property);
+
+    $images = $property->images;
+    if (!$images) return redirect()->back()->with('error', 'Property has no images');
+
+    return redirect()->route('tenants.properties.room', [
+      'property' => $property,
+      'room' => 1,
+    ]);
+  }
+
+  /**
+   * Display the virtual tour of the specified resource.
+   */
+  public function room(Property $property, int $room): View|RedirectResponse
+  {
+    $this->check($property);
+
+    $images = $property->images;
+    if (!$images) return redirect()->back()->with('error', 'Property has no images');
+
+    $room = $room % count($images);
+    $images = array_map(fn($image) => asset($image), $images);
+
+    return view('tenants.properties.tour', [
+      'property' => $property,
+      'room' => $images[$room],
+      'images' => $images,
+    ]);
+  }
+
+  /**
+   * Display the rent form of the specified resource.
+   */
+  public function rent(Property $property): View|RedirectResponse
+  {
+    $this->check($property);
+    if ($property->capacity <= 0) return redirect()->back()->with('error', 'Property is fully booked');
 
     return view('tenants.properties.rent', [
       'property' => $property->load('owner'),
@@ -156,6 +192,7 @@ class PropertyController extends Controller
 
     $validated = $request->validated();
     $tenant = Auth::user()->tenant;
+    if ($property->capacity <= 0) return redirect()->back()->with('error', 'Property is fully booked');
 
     DB::beginTransaction();
     $tenant->rented()->attach($property->id, [
@@ -163,7 +200,7 @@ class PropertyController extends Controller
       'review' => 'No review yet',
       'status' => StatusType::PENDING,
     ]);
-    $property->decrement('capacity');
+    $property->capacity = max(0, $property->capacity - 1);
     $property->save();
     DB::commit();
 

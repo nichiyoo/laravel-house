@@ -156,7 +156,7 @@ class PropertyController extends Controller
     $property->storeImages($request, 'images');
     $property->save();
 
-    return redirect()->route('owners.properties.index')
+    return redirect()->route('owners.properties.show', $property)
       ->with('success', 'property updated successfully');
   }
 
@@ -199,6 +199,38 @@ class PropertyController extends Controller
   {
     return view('owners.properties.location', [
       'property' => $property->load('owner'),
+    ]);
+  }
+
+  /**
+   * Display the virtual tour of the specified resource.
+   */
+  public function tour(Property $property): RedirectResponse
+  {
+    $images = $property->images;
+    if (!$images) return redirect()->back()->with('error', 'Property has no images');
+
+    return redirect()->route('owners.properties.room', [
+      'property' => $property,
+      'room' => 1,
+    ]);
+  }
+
+  /**
+   * Display the virtual tour of the specified resource.
+   */
+  public function room(Property $property, int $room): View|RedirectResponse
+  {
+    $images = $property->images;
+    if (!$images) return redirect()->back()->with('error', 'Property has no images');
+
+    $room = $room % count($images);
+    $images = array_map(fn($image) => asset($image), $images);
+
+    return view('owners.properties.tour', [
+      'property' => $property,
+      'room' => $images[$room],
+      'images' => $images,
     ]);
   }
 

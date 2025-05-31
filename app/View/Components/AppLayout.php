@@ -14,7 +14,6 @@ class AppLayout extends Component
   public function __construct(
     public bool $navbar = true,
     public ?bool $padding = true,
-    public ?string $navigation = null,
   ) {
     //
   }

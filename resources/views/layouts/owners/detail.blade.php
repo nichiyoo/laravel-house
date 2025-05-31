@@ -44,7 +44,18 @@
             </x-delete>
           </div>
 
-          <x-profile :user="$property->owner->user" />
+          <div class="flex items-center justify-between">
+            <x-profile :user="$property->owner->user" />
+
+            <div class="flex gap-2 items-center">
+              <a href="{{ route('owners.properties.tour', $property) }}">
+                <x-button size="icon" variant="secondary">
+                  <i data-lucide="camera" class="size-5"></i>
+                  <span class="sr-only">Virtual Tour</span>
+                </x-button>
+              </a>
+            </div>
+          </div>
         </div>
 
         <section class="relative grid -mt-16 bg-base-50 rounded-t-3xl">

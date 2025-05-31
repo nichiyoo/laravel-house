@@ -47,12 +47,21 @@
           <div class="flex items-center justify-between">
             <x-profile :user="$property->owner->user" />
 
-            <a href="{{ route('chats.show', $property->owner->user) }}">
-              <x-button size="icon" variant="secondary">
-                <i data-lucide="message-circle" class="size-5"></i>
-                <span class="sr-only">Chat</span>
-              </x-button>
-            </a>
+            <div class="flex gap-2 items-center">
+              <a href="{{ route('chats.show', $property->owner->user) }}">
+                <x-button size="icon" variant="secondary">
+                  <i data-lucide="message-circle" class="size-5"></i>
+                  <span class="sr-only">Chat</span>
+                </x-button>
+              </a>
+
+              <a href="{{ route('tenants.properties.tour', $property) }}">
+                <x-button size="icon" variant="secondary">
+                  <i data-lucide="camera" class="size-5"></i>
+                  <span class="sr-only">Virtual Tour</span>
+                </x-button>
+              </a>
+            </div>
           </div>
         </div>
 

@@ -14,7 +14,7 @@
           <span class="text-2xl font-semibold">{{ Auth::user()->name }}</span>
           <span class="text-sm text-base-500">{{ Auth::user()->email }}</span>
           <div class="flex items-center">
-            <x-badge variant="{{ Auth::user()->tenant->completed ? 'primary' : 'danger' }}">
+            <x-badge variant="{{ Auth::user()->tenant->completed ? 'primary' : 'destructive' }}">
               {{ Auth::user()->tenant->completed ? 'Completed' : 'Incomplete' }}
             </x-badge>
           </div>

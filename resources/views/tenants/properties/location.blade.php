@@ -1,8 +1,8 @@
 <x-app-layout>
-  <div id="map" class="absolute inset-0 z-0 w-full h-screen"></div>
+  <div id="map" class="absolute inset-0 z-0 w-full"></div>
 
-  <section class="absolute inset-0 w-full p-side">
-    <div class="flex items-center justify-between gap-2">
+  <section class="absolute top-0 left-0 w-full p-side">
+    <div class="flex items-center justify-between gap-2 w-full">
       <a href="{{ route('tenants.properties.show', $property) }}">
         <x-button size="icon">
           <i data-lucide="chevron-left" class="size-5"></i>

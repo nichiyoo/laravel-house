@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\MethodType;
 use App\Enums\StatusType;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -63,5 +64,27 @@ class TenantProperty extends Pivot
   public function getTotalAttribute(): int
   {
     return $this->property->price * $this->duration * $this->property->interval->ratio();
+  }
+
+  /**
+   * Override the pivot status attribute for completed.
+   */
+  public function status(): Attribute
+  {
+    return Attribute::make(
+      get: function () {
+        $status = $this->attributes['status'];
+        $status = StatusType::tryFrom($status);
+
+        if ($status !== StatusType::APPROVED) return $status;
+
+        $now = now();
+        $start = $this->start;
+        $end = $start->addMonths($this->duration * $this->property->interval->ratio());
+        if ($now->greaterThanOrEqualTo($end)) return StatusType::COMPLETED;
+
+        return $status;
+      }
+    );
   }
 }
