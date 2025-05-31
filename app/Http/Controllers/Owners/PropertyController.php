@@ -271,9 +271,13 @@ class PropertyController extends Controller
         ->with('error', 'tenant not pending');
     }
 
+    DB::beginTransaction();
     $rental->pivot->update([
       'status' => StatusType::REJECTED,
     ]);
+    $property->increment('capacity');
+    $property->save();
+    DB::commit();
 
     $this->notification->send(
       user: $rental->user,
