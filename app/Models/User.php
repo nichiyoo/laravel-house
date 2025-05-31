@@ -94,13 +94,7 @@ class User extends Authenticatable
    */
   public function tenant(): HasOne
   {
-    return $this->hasOne(Tenant::class)
-      ->withDefault([
-        'completed' => false,
-        'address' => 'No address',
-        'latitude' => 0,
-        'longitude' => 0,
-      ]);
+    return $this->hasOne(Tenant::class);
   }
 
   /**

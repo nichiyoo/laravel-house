@@ -56,6 +56,12 @@ class AuthController extends Controller
     $validated = $request->validated();
     $user = User::create($validated);
 
+    match ($user->role) {
+      RoleType::TENANT => $user->tenant()->create(),
+      RoleType::OWNER => $user->owner()->create(),
+      RoleType::ADMIN => $user->admin()->create(),
+    };
+
     Auth::login($user);
     $request->session()->regenerate();
 

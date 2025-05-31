@@ -79,20 +79,21 @@ Route::middleware('auth', 'role:owner')
     Route::resource('properties', OwnerPropertyController::class);
   });
 
-Route::middleware('auth', 'role:tenant')
+Route::middleware('auth', 'role:tenant', 'completed')
   ->prefix('tenants')
   ->name('tenants.')
   ->group(function () {
     Route::controller(TenantController::class)
       ->group(function () {
-        Route::get('dashboard', 'dashboard')->name('dashboard');
-        Route::get('profile', 'profile')->name('profile');
         Route::get('area', 'area')->name('area');
+        Route::get('dashboard', 'dashboard')->name('dashboard');
         Route::get('bookmarks', 'bookmarks')->name('bookmarks');
         Route::get('applications', 'applications')->name('applications');
+        Route::get('profile', 'profile')->name('profile')->withoutMiddleware('completed');
       });
 
     Route::controller(TenantController::class)
+      ->withoutMiddleware('completed')
       ->prefix('profile')
       ->as('profile.')
       ->group(function () {

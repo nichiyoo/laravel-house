@@ -156,6 +156,7 @@ class TenantController extends Controller
 
     $validated->tenant = $request->only('address', 'latitude', 'longitude');
     $tenant->update($validated->tenant);
+    $tenant->completed = true;
     $tenant->save();
 
     return redirect()->route('tenants.profile')->with('success', 'Profile updated successfully');

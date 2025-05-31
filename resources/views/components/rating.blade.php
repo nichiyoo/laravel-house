@@ -6,9 +6,8 @@
 
 @php
   $rating = $rating ? round($rating, 1) : 'Not rated';
-
   $props = $attributes->merge([
-      'class' => 'flex items-center gap-2 text-yellow-500',
+      'class' => 'flex items-center gap-2',
   ]);
 
   $size = match ($size) {

@@ -49,7 +49,7 @@
             <span class="truncate text-base-500">{{ $property->address }}</span>
 
             <div class="flex items-center justify-between mt-2">
-              <x-rating rating="{{ $property->rating }}" expanded />
+              <x-rating class="text-primary-500" rating="{{ $property->rating }}" expanded />
               <x-currency :amount="$property->price" />
             </div>
           </div>

@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <div class="mobile h-screen overflow-hidden relative">
+  <div class="relative h-screen overflow-hidden mobile">
     <x-status variant="success" status="{{ session('success') }}" />
     <x-status variant="error" status="{{ session('error') }}" />
 
@@ -23,7 +23,7 @@
       {{ $slot }}
     </main>
 
-    <nav class="h-navbar border-t bg-base-50 z-10 relative">
+    <nav class="relative z-10 border-t h-navbar bg-base-50">
       <x-navbar />
     </nav>
   </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Owners;
 
 use App\Enums\AmenityType;
 use App\Enums\IntervalType;
+use App\Enums\RoleType;
 use App\Enums\StatusType;
 use App\Models\Property;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use stdClass;
 
@@ -88,19 +90,30 @@ class PropertyController extends Controller
     $validated = $request->except('backdrop', 'images');
     $owner = Auth::user()->owner;
 
-    $property = $owner->properties()->create($validated);
-    $property->storeImage($request, 'backdrop');
-    $property->storeImages($request, 'images');
-    $property->save();
+    try {
+      DB::beginTransaction();
 
-    $this->notification->broadcast(
-      User::role('admin')->get(),
-      'New property created',
-      'A new property has been created by ' . $owner->user->name,
-    );
+      $property = $owner->properties()->create($validated);
+      $property->storeImage($request, 'backdrop');
+      $property->storeImages($request, 'images');
+      $property->save();
 
-    return redirect()->route('owners.properties.index')
-      ->with('success', 'property created successfully');
+      $admins = User::where('role', RoleType::ADMIN)->get();
+      $this->notification->broadcast(
+        $admins,
+        'New property created',
+        'A new property has been created by ' . $owner->user->name,
+      );
+
+      DB::commit();
+
+      return redirect()->route('owners.properties.index')
+        ->with('success', 'property created successfully');
+    } catch (\Exception $e) {
+      DB::rollBack();
+      return redirect()->back()
+        ->with('error', 'property creation failed');
+    }
   }
 
   /**

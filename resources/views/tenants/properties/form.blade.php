@@ -29,7 +29,7 @@
 
   <div class="col-span-full">
     <x-label for="phone" value="Phone Number" />
-    <x-input id="phone" type="tel" name="phone" value="{{ Auth::user()->tenant->phone }}" required readonly />
+    <x-input id="phone" type="tel" name="phone" value="{{ Auth::user()->phone }}" required readonly />
     <x-error :messages="$errors->get('phone')" />
   </div>
 

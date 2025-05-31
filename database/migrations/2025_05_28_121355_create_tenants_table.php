@@ -17,9 +17,9 @@ return new class extends Migration
       $table->timestamps();
       $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
       $table->boolean('completed')->default(false);
-      $table->string('address');
-      $table->decimal('latitude', 10, 6);
-      $table->decimal('longitude', 10, 6);
+      $table->string('address')->nullable();
+      $table->decimal('latitude', 10, 6)->nullable();
+      $table->decimal('longitude', 10, 6)->nullable();
     });
   }
 

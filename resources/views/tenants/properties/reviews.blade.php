@@ -9,7 +9,7 @@
           <p class="text-sm text-base-500">{{ $review->pivot->review }}</p>
         </div>
         <div class="border-t py-4 px-6 flex items-center justify-between">
-          <x-rating :rating="$review->pivot->rating" expanded size="small" />
+          <x-rating class="text-primary-500" :rating="$review->pivot->rating" expanded size="small" />
           <span class="text-sm text-base-500">
             {{ $review->pivot->created_at->diffForHumans() }}
           </span>

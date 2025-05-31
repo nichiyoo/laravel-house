@@ -10,9 +10,14 @@
         <div class="size-40 border border-base-300 rounded-full p-4">
           <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}" class="rounded-full" />
         </div>
-        <div class="flex flex-col text-center">
+        <div class="flex flex-col justify-center items-center text-center">
           <span class="text-2xl font-semibold">{{ Auth::user()->name }}</span>
           <span class="text-sm text-base-500">{{ Auth::user()->email }}</span>
+          <div class="flex items-center">
+            <x-badge variant="{{ Auth::user()->tenant->completed ? 'primary' : 'danger' }}">
+              {{ Auth::user()->tenant->completed ? 'Completed' : 'Incomplete' }}
+            </x-badge>
+          </div>
         </div>
       </div>
     </section>

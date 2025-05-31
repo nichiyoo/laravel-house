@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Authentication;
 
+use App\Enums\RoleType;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,10 @@ class SocialiteController extends Controller
       'google_refresh_token' => $social->refreshToken,
     ]);
 
+    $user->role = RoleType::TENANT;
+    $user->tenant()->create();
+    $user->save();
+
     Auth::login($user);
     return redirect($this->intended);
   }
@@ -56,6 +61,10 @@ class SocialiteController extends Controller
       'github_token' => $social->token,
       'github_refresh_token' => $social->refreshToken,
     ]);
+
+    $user->role = RoleType::TENANT;
+    $user->tenant()->create();
+    $user->save();
 
     Auth::login($user);
     return redirect($this->intended);
