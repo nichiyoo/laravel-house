@@ -101,19 +101,29 @@ class TenantController extends Controller
    */
   public function edit()
   {
+    $user = Auth::user();
+    $tenant = $user->tenant;
+
     $location = new stdClass();
 
-    try {
-      $response = Http::get('http://ip-api.com/json');
+    if ($tenant->completed) {
       $location = (object)[
-        'latitude' => $response->json('lat'),
-        'longitude' => $response->json('lon'),
+        'latitude' => $tenant->latitude,
+        'longitude' => $tenant->longitude,
       ];
-    } catch (\Exception $e) {
-      $location = (object)[
-        'latitude' => -6.200000,
-        'longitude' => 106.816666,
-      ];
+    } else {
+      try {
+        $response = Http::get('http://ip-api.com/json');
+        $location = (object)[
+          'latitude' => $response->json('lat'),
+          'longitude' => $response->json('lon'),
+        ];
+      } catch (\Exception $e) {
+        $location = (object)[
+          'latitude' => -6.200000,
+          'longitude' => 106.816666,
+        ];
+      }
     }
 
     return view('tenants.profile.edit', [
