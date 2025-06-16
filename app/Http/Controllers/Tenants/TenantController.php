@@ -156,7 +156,7 @@ class TenantController extends Controller
     ]);
 
     $validated = new stdClass();
-    $password = $request->has('password');
+    $password = $request->has('password') && $request->password;
     if (!$password) $validated->user = $request->only('name', 'phone');
     else $validated->user = $request->only('name', 'phone', 'password');
 

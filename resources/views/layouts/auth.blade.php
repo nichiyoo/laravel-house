@@ -15,11 +15,11 @@
 </head>
 
 <body>
-  <div class="mobile h-screen p-side grid items-center relative">
+  <div class="relative grid items-center h-screen mobile">
     <x-status variant="success" status="{{ session('success') }}" />
     <x-status variant="error" status="{{ session('error') }}" />
 
-    <div class="grid gap-8">
+    <div class="grid gap-8 p-side">
       <a href="{{ route('home') }}"><x-logo class="mx-auto max-w-40" /></a>
       {{ $slot }}
     </div>

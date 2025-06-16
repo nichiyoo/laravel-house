@@ -72,7 +72,7 @@ class OwnerController extends Controller
       'password' => ['nullable', 'string', 'min:8', 'confirmed'],
     ]);
 
-    $password = $request->has('password');
+    $password = $request->has('password') && $request->password;
     if (!$password) $validated = $request->only('name', 'phone');
     else $validated = $request->only('name', 'phone', 'password');
 
